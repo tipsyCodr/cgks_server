@@ -103,7 +103,7 @@ class UserController extends Controller
         $user = auth()->user();
 
         $validate = Validator::make($request->all(), [
-            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         if ($validate->fails()) {
