@@ -24,6 +24,7 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 
 // for Getting User Details from Referral code
 Route::post('user/referral/get', [UserController::class, 'getUserFromReferralCode'])->name('user.referral.get');
+Route::get('user/referral/get', [UserController::class, 'getUserFromReferralCode'])->name('user.referral.get');
 Route::get('districts', [DistrictController::class, 'getAllDistricts'])->name('districts.get');
 Route::post('user/register', [UserController::class, 'register'])->name('user.register');
 
