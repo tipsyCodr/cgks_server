@@ -164,6 +164,8 @@ class UserController extends Controller
             'mobile' => $request->mobile,
             'district' => $request->district,
             'city' => $request->city,
+            'position' => $request->position ?? null,
+            'designation' => $request->designation ?? null,
             'password' => Hash::make($request->password),
         ]);
 
