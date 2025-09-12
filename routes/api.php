@@ -42,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/by-designation', [UserController::class, 'usersByDesignation'])->name('user.by.designation');
 
 
-    Route::post('announcement', [AnnouncementController::class, 'index'])->name('announcement');
+    Route::post('announcements', [AnnouncementController::class, 'index'])->name('announcement');
     Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
     Route::post('news', [NewsController::class, 'index'])->name('news');
     Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
