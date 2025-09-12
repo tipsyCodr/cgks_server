@@ -29,6 +29,7 @@ class User extends Authenticatable
         'district',
         'city',
         'position',
+        'custom_area',
         'designation',
         'address',
         'profile_photo',

@@ -165,6 +165,7 @@ class UserController extends Controller
             'district' => $request->district,
             'city' => $request->city,
             'position' => $request->position ?? null,
+            'custom_area' => $request->custom_area, // 🔹 store here
             'designation' => $request->designation ?? null,
             'password' => Hash::make($request->password),
         ]);
