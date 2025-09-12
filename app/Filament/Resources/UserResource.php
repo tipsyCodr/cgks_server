@@ -81,7 +81,7 @@ class UserResource extends Resource
 				->icon('heroicon-o-key')
 				->action(function (Forms\Set $set) {
 					// generate a unique code
-					// $uniqueCode = strtoupper(Str::random(8));
+					$uniqueCode = strtoupper(Str::random(8));
 
 					// if you want it unique in DB:
 					while (User::where('referral_code', $uniqueCode)->exists()) {
