@@ -108,7 +108,9 @@ class UserResource extends Resource
                 ImageColumn::make('profile_photo')->circular(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('mobile')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('occupation')->sortable()->searchable(),
+                // Tables\Columns\TextColumn::make('occupation')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('position')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('designation')->sortable()->searchable(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('active')
