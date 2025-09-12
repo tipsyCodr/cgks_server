@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -69,6 +70,9 @@ class UserResource extends Resource
                 Forms\Components\TextInput::make('address')
                     ->nullable()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('referral_code')
+                    ->nullable()
+                    ->maxLength(255),
                 Forms\Components\FileUpload::make('profile_photo')
                     ->nullable(),
                 Forms\Components\TextInput::make('password')
@@ -101,6 +105,7 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('profile_photo')->circular(),
                 Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('mobile')->sortable()->searchable(),
                 Tables\Columns\TextColumn::make('occupation')->sortable()->searchable(),
