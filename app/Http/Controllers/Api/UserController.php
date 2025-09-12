@@ -169,7 +169,13 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'User created successfully', 'user' => $user], 200);
+         $token = $user->createToken('api-token')->plainTextToken;
+            return response()->json([
+                'user' => $user,
+                'token' => $token
+            ],200);
+
+        // return response()->json(['message' => 'User created successfully', 'user' => $user], 200);
     }
 
 
