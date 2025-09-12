@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
             'password'=> bcrypt('cgks@bycrypt@123'),
             'role' => 'user',
         ]);
+
     }
 }

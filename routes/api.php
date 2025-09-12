@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\DistrictController;
 use App\Http\Controllers\Api\NewsController;
+use App\Http\Controllers\Api\PadController;
 use App\Http\Controllers\Api\ReferralController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NotificationController;
@@ -29,6 +30,9 @@ Route::post('user/referral/get', [UserController::class, 'getUserFromReferralCod
 // Route::get('user/referral/get', [UserController::class, 'getUserFromReferralCode'])->name('user.referral.get');
 Route::get('districts', [DistrictController::class, 'getAllDistricts'])->name('districts.get');
 Route::post('user/register', [UserController::class, 'register'])->name('user.register');
+
+Route::get('positions', [PadController::class, 'getPositions'])->name('positions.get');
+Route::get('designations', [PadController::class, 'getDesignations'])->name('designations.get');
 
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
