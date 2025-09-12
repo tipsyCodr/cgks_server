@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -62,6 +63,18 @@ class UserResource extends Resource
 					->maxLength(255),
 				Forms\Components\TextInput::make('position')
 					->nullable()
+					->maxLength(255),
+                    TextInput::make('khad')
+                    ->nullable()
+					->maxLength(255),
+                    TextInput::make('gudi')
+                    ->nullable()
+					->maxLength(255),
+                    TextInput::make('paar')
+                    ->nullable()
+					->maxLength(255),
+                    TextInput::make('booth')
+                    ->nullable()
 					->maxLength(255),
 				Forms\Components\TextInput::make('designation')
 					->nullable()
