@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Str;
 
 class UserController extends Controller
 {
@@ -158,7 +159,12 @@ class UserController extends Controller
             return response()->json(['error' => $validate->errors()], 422);
         }
 
+        $uniqueCode = strtoupper(Str::random(8));
 
+					// if you want it unique in DB:
+        while (User::where('referral_code', $uniqueCode)->exists()) {
+            $uniqueCode = strtoupper(Str::random(8));
+        }
         $user = User::create([
             'name' => $request->name,
             'mobile' => $request->mobile,
@@ -166,6 +172,7 @@ class UserController extends Controller
             'city' => $request->city,
             'position' => $request->position ?? null,
             'custom_area' => $request->custom_area, // 🔹 store here
+            'referral_code' => $uniqueCode,
             'designation' => $request->designation ?? null,
             'password' => Hash::make($request->password),
         ]);
