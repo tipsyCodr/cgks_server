@@ -180,7 +180,7 @@ class UserController extends Controller
             }
             return response()->json(['message' => 'User found successfully.', 'user' => $user], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Error: Failed to fsetch user details - ' . $e->getMessage()], 404);
+            return response()->json(['message' => 'Error: Failed to fetch user details - ' . $e->getMessage()], 404);
         }
     }
 
