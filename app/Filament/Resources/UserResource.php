@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 class UserResource extends Resource
 {
@@ -79,12 +80,12 @@ class UserResource extends Resource
 				->icon('heroicon-o-key')
 				->action(function (Forms\Set $set) {
 					// generate a unique code
-					$uniqueCode = strtoupper(Str::random(8));
+					// $uniqueCode = strtoupper(Str::random(8));
 
 					// if you want it unique in DB:
-					// while (\App\Models\User::where('referral_code', $uniqueCode)->exists()) {
-					// $uniqueCode = strtoupper(Str::random(8));
-					// }
+					while (User::where('referral_code', $uniqueCode)->exists()) {
+					$uniqueCode = strtoupper(Str::random(8));
+					}
 
 					$set('referral_code', $uniqueCode);
 				})
