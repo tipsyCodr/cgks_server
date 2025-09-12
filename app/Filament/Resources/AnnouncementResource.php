@@ -27,7 +27,7 @@ class AnnouncementResource extends Resource
             ->schema([
                 TextColumn::make('title')->label('Title'),
                 TextColumn::make('content')->label('Content'),
-                FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes('image/*')->maxSize(5120)->image(),
+                FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileType('image/*')->maxSize(5120)->image(),
             ]);
     }
 
