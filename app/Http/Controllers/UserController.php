@@ -62,6 +62,8 @@ class UserController extends Controller
                 'email' => $validate['email'],
                 'company' => $validate['company'] ?? null,
                 'category' => $validate['category'] ?? null,
+                'position' => $validate['position'] ?? null,
+                'designation' => $validate['designation'] ?? null,
                 'bio' => $validate['bio'] ?? null,
                 'address' => $validate['address'] ?? null,
                 'mobile' => $validate['mobile'],
