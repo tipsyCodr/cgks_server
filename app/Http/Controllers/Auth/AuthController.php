@@ -25,14 +25,14 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => "error",
                     'message' => "Incorrect mobile or password"
-                ]);
+                ],401);
             }
 
             $token = $user->createToken('api-token')->plainTextToken;
             return response()->json([
                 'user' => $user,
                 'token' => $token
-            ]);
+            ],200);
         }
         catch (ValidationException $e) {
             return response()->json(['error' => 'Error: ' . $e->getMessage()], 422);
