@@ -7,6 +7,7 @@ use App\Filament\Resources\AnnouncementResource\RelationManagers;
 use App\Models\Announcement;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,8 +26,8 @@ class AnnouncementResource extends Resource
     {
         return $form
             ->schema([
-                TextColumn::make('title')->label('Title'),
-                TextColumn::make('content')->label('Content'),
+                TextInput::make('title')->label('Title'),
+                TextInput::make('content')->label('Content'),
                 FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
             ]);
     }
