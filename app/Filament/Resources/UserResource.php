@@ -33,7 +33,10 @@ class UserResource extends Resource
 			})
 			->when(Auth::user()?->role === 'admin', function ($query) {
 				return $query->whereIn('role', ['user', 'moderator']);
-			});
+			})
+				->withCount('referralsMade');
+
+
 	}
 
 	public static function form(Form $form): Form
@@ -64,17 +67,17 @@ class UserResource extends Resource
 				Forms\Components\TextInput::make('position')
 					->nullable()
 					->maxLength(255),
-                    TextInput::make('khad')
-                    ->nullable()
+						TextInput::make('khad')
+						->nullable()
 					->maxLength(255),
-                    TextInput::make('gudi')
-                    ->nullable()
+						TextInput::make('gudi')
+						->nullable()
 					->maxLength(255),
-                    TextInput::make('paar')
-                    ->nullable()
+						TextInput::make('paar')
+						->nullable()
 					->maxLength(255),
-                    TextInput::make('booth')
-                    ->nullable()
+						TextInput::make('booth')
+						->nullable()
 					->maxLength(255),
 				Forms\Components\TextInput::make('designation')
 					->nullable()
@@ -138,10 +141,10 @@ class UserResource extends Resource
 			->columns([
 				ImageColumn::make('profile_photo')->circular(),
 				Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-                Tables\Columns\TextColumn::make('referrals_made_count')
-                ->counts('referralsMade')
-                ->label('Total Referrals')
-                ->sortable(),
+					Tables\Columns\TextColumn::make('referrals_made_count')
+					->counts('referralsMade')
+					->label('Total Referrals')
+					->sortable(),
 				Tables\Columns\TextColumn::make('mobile')->sortable()->searchable(),
 				// Tables\Columns\TextColumn::make('occupation')->sortable()->searchable(),
 				Tables\Columns\TextColumn::make('position')->sortable()->searchable(),
@@ -172,8 +175,8 @@ class UserResource extends Resource
 	public static function getRelations(): array
 	{
 		return [
-			//
-		];
+			RelationManagers\ReferralsMadeRelationManager::class,
+			];
 	}
 
 	public static function getPages(): array
