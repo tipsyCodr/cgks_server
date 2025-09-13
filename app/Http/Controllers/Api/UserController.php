@@ -170,14 +170,12 @@ class UserController extends Controller
             'mobile' => $request->mobile,
             'district' => $request->district,
             'city' => $request->city,
-            // 'position' => $request->position ?? null,
-            'custom_area' => $request->custom_area, // 🔹 store here
-            'khad' => $request->khad, // 🔹 store here
-            'gudi' => $request->gudi, // 🔹 store here
-            'paar' => $request->paar, // 🔹 store here
-            'booth' => $request->booth, // 🔹 store here
+            'email' => $request->email,
+            'currentAddress' => $request->currentAddress, // 🔹 store here
+            'address' => $request->address, // 🔹 store here
+            'occupation' => $request->occupation, // 🔹 store here
+            'whatsapp' => $request->whatsapp, // 🔹 store here
             'referral_code' => $uniqueCode,
-            'designation' => $request->designation ?? null,
             'password' => Hash::make($request->password),
         ]);
 

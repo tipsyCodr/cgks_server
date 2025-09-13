@@ -36,6 +36,8 @@ class User extends Authenticatable
         'custom_area',
         'designation',
         'address',
+        'currentAddress',
+        'whatsapp',
         'profile_photo',
         'password',
         'due_date',
