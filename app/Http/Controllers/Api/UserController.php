@@ -104,8 +104,17 @@ class UserController extends Controller
         if ($validate->fails()) {
             return response()->json(['error' => $validate->errors()], 422);
         }
+        $data = $request->all();
 
-        $user->update($request->all());
+        // If password is provided, hash it
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            // Remove password from data to prevent null
+            unset($data['password']);
+        }
+
+        $user->update($data);
 
         return response()->json(['message' => 'Profile updated successfully', 'user' => $user], 200);
     }
