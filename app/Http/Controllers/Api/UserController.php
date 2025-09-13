@@ -150,6 +150,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             // 'district' => 'nullable|string|max:255',
             // 'city' => 'nullable|string|max:255',
+            'referral_code' => 'required|string|exists:users,referral_code',
             'mobile' => 'required|string|max:15|unique:users|regex:/^[0-9]{10,15}$/',
             'password' => 'required|string|min:4',
         ]);
@@ -160,7 +161,7 @@ class UserController extends Controller
         $referral_code = $request->referral_code;
 
         //Finding if referral code is valid and attached to user.
-        $userid  = User::where('referral_code',$referral_code)->get('id');
+        $userid  = User::where('referral_code',$referral_code)->value('id');
 
         // if found then create new user and add referral entry.
         if($userid){
@@ -177,7 +178,7 @@ class UserController extends Controller
                 'district' => $request->district,
                 'city' => $request->city,
                 'email' => $request->email,
-                'currentAddress' => $request->currentAddress, // 🔹 store here
+                'current_address' => $request->currentAddress, // 🔹 store here
                 'address' => $request->address, // 🔹 store here
                 'occupation' => $request->occupation, // 🔹 store here
                 'whatsapp' => $request->whatsapp, // 🔹 store here
@@ -196,7 +197,7 @@ class UserController extends Controller
             return response()->json(['user' => $user,'token' => $token],200);
 
         }else{
-            return response()->json(['status' => 'error','message' => 'Referral Code not Valid'],500);
+            return response()->json(['status' => 'error','message' => 'Referral Code not Valid'],422);
         }
         // return response()->json(['message' => 'User created successfully', 'user' => $user], 200);
     }
