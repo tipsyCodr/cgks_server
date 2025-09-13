@@ -138,10 +138,15 @@ class UserResource extends Resource
 			->columns([
 				ImageColumn::make('profile_photo')->circular(),
 				Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('referrals_made_count')
+                ->counts('referralsMade')
+                ->label('Total Referrals')
+                ->sortable(),
 				Tables\Columns\TextColumn::make('mobile')->sortable()->searchable(),
 				// Tables\Columns\TextColumn::make('occupation')->sortable()->searchable(),
 				Tables\Columns\TextColumn::make('position')->sortable()->searchable(),
 				Tables\Columns\TextColumn::make('designation')->sortable()->searchable(),
+
 			])
 			->filters([
 				Tables\Filters\SelectFilter::make('active')

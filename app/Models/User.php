@@ -90,16 +90,20 @@ class User extends Authenticatable
         return $this->hasMany(Referral::class, 'to');
     }
 
-    public function oto(){
-        return $this->hasMany(OneToOne::class,'user_id');
-    }
-    public function thankyou(){
-        return $this->hasMany(ThankYou::class,'from');
+    public function referralsMade()
+    {
+        return $this->hasMany(Referral::class, 'referred_by');
     }
 
-    public function chapter()
+    public function referralsReceived()
     {
-        return $this->belongsToMany(Chapter::class);
+        return $this->hasMany(Referral::class, 'referred_to');
+    }
+
+    // Shortcut: users this person referred
+    public function referredUsers()
+    {
+        return $this->belongsToMany(User::class, 'referrals', 'referred_by', 'referred_to');
     }
 
 }
