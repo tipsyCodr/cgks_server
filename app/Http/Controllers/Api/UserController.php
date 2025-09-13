@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Str;
 
 class UserController extends Controller
@@ -77,13 +78,22 @@ class UserController extends Controller
         $user = Auth::user();
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'mobile' => 'nullable|string|max:15|unique:users',
+            'mobile' => [
+                'nullable',
+                'string',
+                'max:15',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'district' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
             'position' => 'nullable|string|max:255',
             'designation' => 'nullable|string|max:255',
             'bio' => 'nullable|string|max:500',
-            'email' => 'nullable|email|unique:users',
+            'email' => [
+                'nullable',
+                'email',
+                Rule::unique('users')->ignore($user->id),
+            ],
             'occupation' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'email_verified_at' => 'nullable|date',

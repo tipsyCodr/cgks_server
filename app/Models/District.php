@@ -8,5 +8,6 @@ class District extends Model
 {
    protected $fillable = [
     'name',
+    'rto_no',
    ];
 }
