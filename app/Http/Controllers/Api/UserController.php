@@ -198,11 +198,6 @@ class UserController extends Controller
         }else{
             return response()->json(['status' => 'error','message' => 'Referral Code not Valid'],500);
         }
-
-
-
-
-
         // return response()->json(['message' => 'User created successfully', 'user' => $user], 200);
     }
 
