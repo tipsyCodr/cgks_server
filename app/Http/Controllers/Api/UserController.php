@@ -160,7 +160,7 @@ class UserController extends Controller
         $referral_code = $request->referral_code;
 
         //Finding if referral code is valid and attached to user.
-        $userid  = User::where('referrral_code',$referral_code)->get('id');
+        $userid  = User::where('referral_code',$referral_code)->get('id');
 
         // if found then create new user and add referral entry.
         if($userid){
