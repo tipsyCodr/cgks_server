@@ -528,8 +528,13 @@ class UserController extends Controller
             ], 500);
         }
     }
-   public function getPositions()
+   public function updatePassword(Request $request)
    {
-
+    $id = $request->user_id;
+    $password = $request->password;
+    $user = User::findOrFail($id);
+    $user->update([
+        'password'=> bcrypt($password),
+    ]);
    }
 }

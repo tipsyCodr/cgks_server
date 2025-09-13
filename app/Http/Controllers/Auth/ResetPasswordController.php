@@ -63,4 +63,31 @@ class ResetPasswordController extends Controller
                     ? redirect()->route('password.reset.success')
                     : back()->withErrors(['email' => [__($status)]]);
     }
-} 
+    // ResetPasswordController.php
+    public function resetApi(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password),
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => 'Password has been reset.'], 200)
+            : response()->json(['error' => __($status)], 400);
+    }
+
+}

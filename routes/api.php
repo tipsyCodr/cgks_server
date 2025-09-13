@@ -4,25 +4,24 @@ use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\DistrictController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PadController;
-use App\Http\Controllers\Api\ReferralController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\VisitorController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
-// Route::get('login',function(){
-//     return "You are not Logged in!";
-// })->name('logins');
 
-Route::get('connect',function(){
-    $data = ["message"=>"You are connected!"];
-    return response()->json($data);
-});
 Route::post('login', [AuthController::class, 'login'])->name('login');
+
+
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkApi']);
+Route::post('/reset-password', [ResetPasswordController::class, 'resetApi']);
 
 
 // for Getting User Details from Referral code
@@ -41,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/by-position', [UserController::class, 'usersByPosition'])->name('user.by.position');
     Route::post('user/by-designation', [UserController::class, 'usersByDesignation'])->name('user.by.designation');
 
+    Route::post('users/update/password', [UserController::class, 'updatePassword'])->name('user.update.password');
 
     Route::post('announcements', [AnnouncementController::class, 'index'])->name('announcement');
     Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
