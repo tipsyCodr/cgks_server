@@ -192,6 +192,7 @@ class UserController extends Controller
                 'referred_by'=>$referred_by_user_id,
                 'referred_to'=>$referred_to_user_id,
             ]);
+
             // then creating PAT and returning user and token
             $token = $user->createToken('api-token')->plainTextToken;
             return response()->json(['user' => $user,'token' => $token],200);
