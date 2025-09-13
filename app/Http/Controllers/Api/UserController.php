@@ -145,7 +145,7 @@ class UserController extends Controller
      */
     public function register(Request $request)
     {
-        //Store the user
+        //Validating the data
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             // 'district' => 'nullable|string|max:255',
@@ -153,37 +153,55 @@ class UserController extends Controller
             'mobile' => 'required|string|max:15|unique:users|regex:/^[0-9]{10,15}$/',
             'password' => 'required|string|min:4',
         ]);
-        // return response()->json(['input' => json_encode($request->all())], 201);
-
         if ($validate->fails()) {
             return response()->json(['error' => $validate->errors()], 422);
         }
 
-        $uniqueCode = strtoupper(Str::random(8));
+        $referral_code = $request->referral_code;
 
-					// if you want it unique in DB:
-        while (User::where('referral_code', $uniqueCode)->exists()) {
+        //Finding if referral code is valid and attached to user.
+        $userid  = User::where('referrral_code',$referral_code)->get('id');
+
+        // if found then create new user and add referral entry.
+        if($userid){
+            //generating referral code for new user
             $uniqueCode = strtoupper(Str::random(8));
-        }
-        $user = User::create([
-            'name' => $request->name,
-            'mobile' => $request->mobile,
-            'district' => $request->district,
-            'city' => $request->city,
-            'email' => $request->email,
-            'currentAddress' => $request->currentAddress, // 🔹 store here
-            'address' => $request->address, // 🔹 store here
-            'occupation' => $request->occupation, // 🔹 store here
-            'whatsapp' => $request->whatsapp, // 🔹 store here
-            'referral_code' => $uniqueCode,
-            'password' => Hash::make($request->password),
-        ]);
 
-         $token = $user->createToken('api-token')->plainTextToken;
-            return response()->json([
-                'user' => $user,
-                'token' => $token
-            ],200);
+            // if you want it unique in DB:
+            while (User::where('referral_code', $uniqueCode)->exists()) {
+                $uniqueCode = strtoupper(Str::random(8));
+            }
+            $user = User::create([
+                'name' => $request->name,
+                'mobile' => $request->mobile,
+                'district' => $request->district,
+                'city' => $request->city,
+                'email' => $request->email,
+                'currentAddress' => $request->currentAddress, // 🔹 store here
+                'address' => $request->address, // 🔹 store here
+                'occupation' => $request->occupation, // 🔹 store here
+                'whatsapp' => $request->whatsapp, // 🔹 store here
+                'referral_code' => $uniqueCode,
+                'password' => Hash::make($request->password),
+            ]);
+
+            $referred_by_user_id = $userid;
+            $referred_to_user_id = $user->id;
+            $referral = Referral::create([
+                'referred_by'=>$referred_by_user_id,
+                'referred_to'=>$referred_to_user_id,
+            ]);
+            // then creating PAT and returning user and token
+            $token = $user->createToken('api-token')->plainTextToken;
+            return response()->json(['user' => $user,'token' => $token],200);
+
+        }else{
+            return response()->json(['status' => 'error','message' => 'Referral Code not Valid'],500);
+        }
+
+
+
+
 
         // return response()->json(['message' => 'User created successfully', 'user' => $user], 200);
     }
