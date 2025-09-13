@@ -41,6 +41,7 @@ class User extends Authenticatable
         'profile_photo',
         'password',
         'due_date',
+        'referral_code',
         'active',
         'role',
         'chapter_id'
