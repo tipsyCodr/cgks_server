@@ -58,9 +58,9 @@ class UserResource extends Resource
 				Forms\Components\TextInput::make('occupation')
 					->nullable()
 					->maxLength(255),
-				Forms\Components\TextInput::make('department')
-					->nullable()
-					->maxLength(255),
+				// Forms\Components\TextInput::make('department')
+				// 	->nullable()
+				// 	->maxLength(255),
 				Forms\Components\TextInput::make('category')
 					->nullable()
 					->maxLength(255),
