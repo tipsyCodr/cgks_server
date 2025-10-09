@@ -7,6 +7,7 @@ use App\Filament\Resources\NewsResource\RelationManagers;
 use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -28,7 +29,7 @@ class NewsResource extends Resource
         return $form
               ->schema([
                 TextInput::make('title')->label('Title'),
-                TextInput::make('content')->label('Content'),
+                Textarea::make('content')->label('Content'),
                 FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
             ]);
     }
