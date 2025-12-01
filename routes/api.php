@@ -4,6 +4,8 @@ use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\DistrictController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PadController;
+use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Api\UserController;
@@ -46,6 +48,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
     Route::post('news', [NewsController::class, 'index'])->name('news');
     Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
+
+    // Likes
+    Route::post('likes/toggle', [LikeController::class, 'toggle'])->name('likes.toggle');
+    Route::post('likes/status', [LikeController::class, 'status'])->name('likes.status');
+
+    // Comments
+    Route::post('comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::post('comments/store', [CommentController::class, 'store'])->name('comments.store');
 
 
     // Auth Routes
