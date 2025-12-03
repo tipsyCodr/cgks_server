@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\PadController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\AchievementController;
+use App\Http\Controllers\Api\LiveVideoController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Api\UserController;
@@ -61,6 +62,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Achievements
     Route::post('achievements', [AchievementController::class, 'index'])->name('achievements.index');
     Route::post('achievement/show', [AchievementController::class, 'show'])->name('achievements.show');
+
+    // Live Video
+    Route::get('live-video', [LiveVideoController::class, 'index'])->name('live-video');
 
 
     // Auth Routes
