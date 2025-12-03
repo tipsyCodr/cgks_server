@@ -6,11 +6,12 @@ use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PadController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\AchievementController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\Api\VisitorController;
+// use App\Http\Controllers\Api\NotificationController;
+// use App\Http\Controllers\Api\VisitorController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Models\User;
@@ -57,6 +58,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('comments', [CommentController::class, 'index'])->name('comments.index');
     Route::post('comments/store', [CommentController::class, 'store'])->name('comments.store');
 
+    // Achievements
+    Route::post('achievements', [AchievementController::class, 'index'])->name('achievements.index');
+    Route::post('achievements/show', [AchievementController::class, 'show'])->name('achievements.show');
+
 
     // Auth Routes
     Route::post('logout', [AuthController::class, 'logout'])->name('logout');
@@ -73,7 +78,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('requests', [UserController::class, 'getAllRequests'])->name('user.requests');
     Route::get('categories', [UserController::class, 'getCategories'])->name('categories.index');
 
-    Route::post('visitor/store', [VisitorController::class, 'store'])->name('categories.index');
 
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
     Route::post('update-profile', [App\Http\Controllers\Api\UserController::class, 'updateProfile'])->name('update.profile');
@@ -81,16 +85,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('get-profile', [App\Http\Controllers\Api\UserController::class, 'getProfile'])->name('get.profile');
 
-    // Notification Routes
-    Route::prefix('notifications')->name('notifications.')->group(function () {
-        Route::get('/', [NotificationController::class, 'index'])->name('index');
-        Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
-        Route::post('/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
-        Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
-        Route::post('/clear/{id}', [NotificationController::class, 'clearNotification'])->name('clear');
-    });
-
     Route::post('members', [UserController::class, 'index'])->name('get.members');
+
+    // Notification Routes
+    // Route::prefix('notifications')->name('notifications.')->group(function () {
+    //     Route::get('/', [NotificationController::class, 'index'])->name('index');
+    //     Route::get('/unread-count', [NotificationController::class, 'getUnreadCount'])->name('unread-count');
+    //     Route::post('/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('mark-as-read');
+    //     Route::post('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('mark-all-as-read');
+    //     Route::post('/clear/{id}', [NotificationController::class, 'clearNotification'])->name('clear');
+    // });
+    // Route::post('visitor/store', [VisitorController::class, 'store'])->name('categories.index');
 });
 
 // Route::prefix('v1')->group(function () {
