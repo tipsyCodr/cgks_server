@@ -23,7 +23,7 @@ class AchievementResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\FileUpload::make('image')
+                Forms\Components\FileUpload::make('image_url')
                     ->image()
                     ->directory('achievements'),
                 Forms\Components\RichEditor::make('content')
@@ -39,7 +39,7 @@ class AchievementResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image_url'),
                 Tables\Columns\TextColumn::make('content')
                     ->html()
                     ->limit(50),
