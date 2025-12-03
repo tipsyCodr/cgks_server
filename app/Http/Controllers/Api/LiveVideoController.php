@@ -10,18 +10,19 @@ class LiveVideoController extends Controller
 {
     public function index()
     {
-        $liveVideo = LiveVideo::where('is_active', true)->latest()->first();
-
-        if (!$liveVideo) {
-            return response()->json(['message' => 'No active live video found'], 404);
-        }
+        $liveVideos = LiveVideo::where('is_active', true)
+            ->latest()
+            ->get()
+            ->map(function ($video) {
+                return [
+                    'video_id' => $video->video_id,
+                    'title' => $video->title,
+                    'created_at' => $video->created_at,
+                ];
+            });
 
         return response()->json([
-            'video_id' => $liveVideo->video_id,
-            'data' => [
-                'video_id' => $liveVideo->video_id,
-                'title' => $liveVideo->title,
-            ]
+            'data' => $liveVideos
         ]);
     }
 }
