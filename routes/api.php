@@ -60,7 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Achievements
     Route::post('achievements', [AchievementController::class, 'index'])->name('achievements.index');
-    Route::post('achievements/show', [AchievementController::class, 'show'])->name('achievements.show');
+    Route::post('achievement/show', [AchievementController::class, 'show'])->name('achievements.show');
 
 
     // Auth Routes
