@@ -29,7 +29,10 @@ class NewsResource extends Resource
         return $form
               ->schema([
                 TextInput::make('title')->label('Title'),
-                Textarea::make('content')->label('Content')->autosize(),
+                // Textarea::make('content')->label('Content')->autosize(),
+                Forms\Components\RichEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
                 FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
             ]);
     }
