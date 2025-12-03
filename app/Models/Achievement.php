@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Achievement extends Model
 {
     protected $fillable = [
-        'image',
+        'image_url',
         'content',
         'published_date',
     ];
