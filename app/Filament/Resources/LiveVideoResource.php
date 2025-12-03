@@ -22,8 +22,14 @@ class LiveVideoResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('video_id')
                     ->required()
-                    ->label('YouTube Video ID')
-                    ->maxLength(255),
+                    ->label('YouTube Link or Video ID')
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(function ($state) {
+                        if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $state, $matches)) {
+                            return $matches[1];
+                        }
+                        return $state;
+                    }),
                 Forms\Components\TextInput::make('title')
                     ->maxLength(255),
                 Forms\Components\Toggle::make('is_active')
