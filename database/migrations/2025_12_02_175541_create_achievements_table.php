@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('achievements', function (Blueprint $table) {
             $table->id();
-            $table->string('image')->nullable();
+            $table->string('image_url')->nullable();
             $table->text('content');
             $table->date('published_date');
             $table->timestamps();
