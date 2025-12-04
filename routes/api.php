@@ -78,7 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
     Route::post('news/category', [NewsController::class, 'fetchByCategory'])->name('news.category');
 
-    Route::get('contact-details', [ContactSettingsController::class, 'index'])->name('contact-details');
+    Route::post('contact-details', [ContactSettingsController::class, 'index'])->name('contact-details');
 
     // Live Video
     Route::get('live-video', [LiveVideoController::class, 'index'])->name('live-video');
