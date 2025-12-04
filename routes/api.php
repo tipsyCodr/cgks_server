@@ -44,6 +44,9 @@ Route::get('designations', [PadController::class, 'getDesignations'])->name('des
 Route::get('categories/{type}',[CategoryController::class,'index'])->name('categories');
 Route::get('categories/get/{id}',[CategoryController::class,'getCategory'])->name('categories.get');
 
+Route::get('categories', [UserController::class, 'getCategories'])->name('categories.index');
+
+
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -52,13 +55,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('user/by-designation', [UserController::class, 'usersByDesignation'])->name('user.by.designation');
 
     Route::post('users/update/password', [UserController::class, 'updatePassword'])->name('user.update.password');
-
-    Route::post('announcements', [AnnouncementController::class, 'index'])->name('announcement');
-    Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
-    Route::post('announcements/category', [AnnouncementController::class, 'fetchByCategory'])->name('announcements.category');
-    Route::post('news', [NewsController::class, 'index'])->name('news');
-    Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
-    Route::post('news/category', [NewsController::class, 'fetchByCategory'])->name('news.category');
 
     // Likes
     Route::post('likes/toggle', [LikeController::class, 'toggle'])->name('likes.toggle');
@@ -72,6 +68,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('achievements', [AchievementController::class, 'index'])->name('achievements.index');
     Route::post('achievement/show', [AchievementController::class, 'show'])->name('achievements.show');
     Route::post('achievements/category', [AchievementController::class, 'fetchByCategory'])->name('achievements.category');
+
+
+    Route::post('announcements', [AnnouncementController::class, 'index'])->name('announcement');
+    Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
+    Route::post('announcements/category', [AnnouncementController::class, 'fetchByCategory'])->name('announcements.category');
+    Route::post('news', [NewsController::class, 'index'])->name('news');
+    Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
+    Route::post('news/category', [NewsController::class, 'fetchByCategory'])->name('news.category');
 
 
     // Live Video
@@ -94,8 +98,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('users/by-chapter', [UserController::class, 'usersByChapter'])->name('users.by.chapter');
     Route::get('worldwide-users', [UserController::class, 'globalUsers'])->name('users.global');
     // Route::get('requests', [UserController::class, 'getAllRequests'])->name('user.requests');
-    Route::get('categories', [UserController::class, 'getCategories'])->name('categories.index');
-
 
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
     Route::post('update-profile', [App\Http\Controllers\Api\UserController::class, 'updateProfile'])->name('update.profile');
