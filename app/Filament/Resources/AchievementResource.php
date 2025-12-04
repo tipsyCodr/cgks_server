@@ -5,7 +5,9 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AchievementResource\Pages;
 use App\Filament\Resources\AchievementResource\RelationManagers;
 use App\Models\Achievement;
+use App\Models\Category;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,6 +28,9 @@ class AchievementResource extends Resource
                 Forms\Components\FileUpload::make('image_url')
                     ->image()
                     ->directory('achievements'),
+                Select::make('category_id')->label('Category')->options(
+                    Category::where('type', 'news')->pluck('name', 'id')
+                ),
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),

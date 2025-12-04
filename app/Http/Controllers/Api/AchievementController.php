@@ -13,7 +13,6 @@ class AchievementController extends Controller
         $achievements = Achievement::orderBy('published_date', 'desc')->get();
         return response()->json($achievements);
     }
-
     public function show(Request $request)
     {
         $id = $request->id;
@@ -24,5 +23,12 @@ class AchievementController extends Controller
         }
 
         return response()->json($achievement);
+    }
+
+    public function fetchByCategory(Request $request)
+    {
+        $categoryId = $request->category_id;
+        $achievements = Achievement::where('category_id', $categoryId)->orderBy('published_date', 'desc')->get();
+        return response()->json($achievements);
     }
 }

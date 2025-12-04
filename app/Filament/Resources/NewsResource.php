@@ -4,9 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\NewsResource\Pages;
 use App\Filament\Resources\NewsResource\RelationManagers;
+use App\Models\Category;
 use App\Models\News;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -27,9 +29,11 @@ class NewsResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-              ->schema([
-                TextInput::make('title')->label('Title'),
-                // Textarea::make('content')->label('Content')->autosize(),
+            ->schema([
+                TextInput::make('title')->label('Title')->required(),
+                Select::make('category_id')->label('Category')->options(
+                    Category::where('type', 'news')->pluck('name', 'id')
+                ),
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
@@ -43,7 +47,7 @@ class NewsResource extends Resource
             ->columns([
                 TextColumn::make('title')->label('Title'),
                 TextColumn::make('content')->label('Content'),
-                ImageColumn::make('image_url')->label('Image')->url(fn ($record) => $record->image_url),
+                ImageColumn::make('image_url')->label('Image')->url(fn($record) => $record->image_url),
             ])
             ->filters([
                 //

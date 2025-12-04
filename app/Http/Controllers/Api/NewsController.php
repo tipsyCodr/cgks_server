@@ -24,4 +24,12 @@ class NewsController extends Controller
        }
    }
 
+
+
+    public function fetchByCategory(Request $request)
+    {
+        $categoryId = $request->category_id;
+        $news = News::where('category_id', $categoryId)->get();
+        return response()->json($news, 200);
+    }
 }

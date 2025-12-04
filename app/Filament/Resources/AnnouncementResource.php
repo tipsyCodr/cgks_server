@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AnnouncementResource\Pages;
 use App\Filament\Resources\AnnouncementResource\RelationManagers;
 use App\Models\Announcement;
+use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -26,8 +28,11 @@ class AnnouncementResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->label('Title'),
-                TextInput::make('content')->label('Content'),
+                TextInput::make('title')->label('Title')->required(),
+                TextInput::make('content')->label('Content')->required(),
+                  Select::make('category_id')->label('Category')->options(
+                    Category::where('type', 'news')->pluck('name', 'id')
+                ),
                 FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
             ]);
     }

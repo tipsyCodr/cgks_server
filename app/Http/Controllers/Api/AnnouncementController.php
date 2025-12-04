@@ -24,4 +24,11 @@ class AnnouncementController extends Controller
        }
    }
 
+
+    public function fetchByCategory(Request $request)
+    {
+        $categoryId = $request->category_id;
+        $announcements = Announcement::where('category_id', $categoryId)->get();
+        return response()->json($announcements, 200);
+    }
 }

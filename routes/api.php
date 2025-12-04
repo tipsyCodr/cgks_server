@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\UserController;
 // use App\Http\Controllers\Api\VisitorController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,10 @@ Route::post('user/register', [UserController::class, 'register'])->name('user.re
 Route::get('positions', [PadController::class, 'getPositions'])->name('positions.get');
 Route::get('designations', [PadController::class, 'getDesignations'])->name('designations.get');
 
+// Category
+Route::get('categories/{type}',[CategoryController::class,'index'])->name('categories');
+Route::get('categories/get/{id}',[CategoryController::class,'getCategory'])->name('categories.get');
+
 // Protected Routes
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -49,8 +55,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('announcements', [AnnouncementController::class, 'index'])->name('announcement');
     Route::post('announcement/show', [AnnouncementController::class, 'show'])->name('announcement.show');
+    Route::post('announcements/category', [AnnouncementController::class, 'fetchByCategory'])->name('announcements.category');
     Route::post('news', [NewsController::class, 'index'])->name('news');
     Route::post('news/show', [NewsController::class, 'show'])->name('news.show');
+    Route::post('news/category', [NewsController::class, 'fetchByCategory'])->name('news.category');
 
     // Likes
     Route::post('likes/toggle', [LikeController::class, 'toggle'])->name('likes.toggle');
@@ -63,6 +71,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Achievements
     Route::post('achievements', [AchievementController::class, 'index'])->name('achievements.index');
     Route::post('achievement/show', [AchievementController::class, 'show'])->name('achievements.show');
+    Route::post('achievements/category', [AchievementController::class, 'fetchByCategory'])->name('achievements.category');
+
 
     // Live Video
     Route::get('live-video', [LiveVideoController::class, 'index'])->name('live-video');
