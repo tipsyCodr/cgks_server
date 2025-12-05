@@ -71,7 +71,7 @@
         </div>
         <h1>Password Reset Successful</h1>
         <p>Your password has been reset successfully. You can now log in with your new password.</p>
-        <a href="{{ route('login') }}" class="button">Go to Login</a>
+        {{-- <a href="{{ route('login') }}" class="button">Go to Login</a> --}}
     </div>
 </body>
-</html> 
+</html>
