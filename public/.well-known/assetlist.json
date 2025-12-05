@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.pathideamultiskill.cgks",
+    "sha256_cert_fingerprints":
+    ["91:45:4F:37:FB:3E:9D:B9:B9:17:3A:A2:80:3C:46:D4:D6:3D:7B:2B:C8:12:DD:F9:02:5E:9F:07:7B:5E:1B:7B"]
+  }
+}]
