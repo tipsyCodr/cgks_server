@@ -15,6 +15,10 @@ Route::post('/feedback-coming', [WebController::class, 'feedbackStore'])->name('
 Route::get('membership',[UserController::class,'form'])->name('membership');
 Route::post('membership/register',[UserController::class, 'store'])->name('membership.register');
 
+Route::get('/register', function () {
+    // Redirect to Play Store or show a "Download App" page
+    return redirect('https://play.google.com/store/apps/details?id=com.pathideamultiskill.cgks');
+});
 Route::get('visitor',[VisitorController::class,'index'])->name('visitor');
 Route::post('visitor/register',[VisitorController::class, 'store'])->name('visitor.register');
 
