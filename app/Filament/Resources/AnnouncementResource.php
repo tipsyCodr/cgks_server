@@ -9,7 +9,7 @@ use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -30,7 +30,7 @@ class AnnouncementResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')->label('Title')->required(),
-                Textarea::make('content')->label('Content')->required(),
+                RichEditor::make('content')->label('Content')->required()->columnSpanFull(),
                   Select::make('category_id')->label('Category')->options(
                     Category::where('type', 'news')->pluck('name', 'id')
                 ),
@@ -43,7 +43,7 @@ class AnnouncementResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->label('Title'),
-                TextColumn::make('content')->label('Content'),
+                TextColumn::make('content')->label('Content')->html()->limit(50),
                 TextColumn::make('image_url')->label('Image')->url(fn ($record) => $record->image_url),
             ])
             ->filters([
