@@ -29,7 +29,7 @@ class FeedbackResource extends Resource
                     ->required(),
                 Forms\Components\TextInput::make('email')
                     ->required(),
-                Forms\Components\TextArea::make('message')
+                Forms\Components\Textarea::make('message')
                     ->required(),
             ]);
     }
