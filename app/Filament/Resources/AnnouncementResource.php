@@ -9,6 +9,7 @@ use App\Models\Category;
 use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -29,7 +30,7 @@ class AnnouncementResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')->label('Title')->required(),
-                TextInput::make('content')->label('Content')->required(),
+                Textarea::make('content')->label('Content')->required(),
                   Select::make('category_id')->label('Category')->options(
                     Category::where('type', 'news')->pluck('name', 'id')
                 ),
