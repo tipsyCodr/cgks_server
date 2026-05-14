@@ -30,10 +30,10 @@ class AnnouncementResource extends Resource
         return $form
             ->schema([
                 TextInput::make('title')->label('Title')->required(),
-                RichEditor::make('content')->label('Content')->required()->columnSpanFull(),
-                  Select::make('category_id')->label('Category')->options(
+                Select::make('category_id')->label('Category')->options(
                     Category::where('type', 'news')->pluck('name', 'id')
                 ),
+                RichEditor::make('content')->label('Content')->required()->columnSpanFull(),
                 FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
             ]);
     }
