@@ -17,7 +17,13 @@ class MediaResource extends Resource
 {
     protected static ?string $model = Media::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
+
+    protected static ?string $navigationGroup = 'मीडिया (Media)';
+
+    protected static ?string $navigationLabel = 'मीडिया गैलरी (Media)';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Forms\Form $form): Forms\Form
 {

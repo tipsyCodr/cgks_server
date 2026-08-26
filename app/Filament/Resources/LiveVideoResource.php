@@ -16,6 +16,12 @@ class LiveVideoResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-video-camera';
 
+    protected static ?string $navigationGroup = 'मीडिया (Media)';
+
+    protected static ?string $navigationLabel = 'लाइव वीडियो (Live Videos)';
+
+    protected static ?int $navigationSort = 2;
+
     public static function form(Form $form): Form
     {
         return $form
@@ -24,6 +30,7 @@ class LiveVideoResource extends Resource
                     ->required()
                     ->label('YouTube Link or Video ID')
                     ->maxLength(255)
+                    ->helperText('Paste the full YouTube link — the 11-character video ID is extracted automatically.')
                     ->dehydrateStateUsing(function ($state) {
                         if (preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $state, $matches)) {
                             return $matches[1];
@@ -42,12 +49,18 @@ class LiveVideoResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('video_id')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('video_id')
+                    ->label('Preview')
+                    ->getStateUsing(fn (LiveVideo $record) => "https://img.youtube.com/vi/{$record->video_id}/mqdefault.jpg")
+                    ->height(60),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\TextColumn::make('video_id')
+                    ->label('Video ID')
+                    ->copyable()
+                    ->searchable(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -57,8 +70,10 @@ class LiveVideoResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

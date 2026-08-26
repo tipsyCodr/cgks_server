@@ -22,7 +22,19 @@ class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-tag';
+
+    protected static ?string $navigationGroup = 'सेटिंग्स (Settings)';
+
+    protected static ?string $navigationLabel = 'श्रेणियाँ (Categories)';
+
+    protected static ?int $navigationSort = 1;
+
+    protected static array $typeLabels = [
+        'news' => 'समाचार',
+        'achievements' => 'उपलब्धि',
+        'announcements' => 'घोषणा',
+    ];
 
     public static function form(Form $form): Form
     {
@@ -30,7 +42,7 @@ class CategoryResource extends Resource
             ->schema([
                 TextInput::make('name')->label('Name')->live(onBlur:true)->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug',Str::slug($state))) ,
                 TextInput::make('slug')->label('Slug'),
-                Select::make('type')->label('Type')->options(['news'=>'समाचार','achievements'=>'उपलब्धि','announcements'=>'घोषणा'])->default('news'),
+                Select::make('type')->label('Type')->options(self::$typeLabels)->default('news'),
                 Select::make('status')->label('Status')->options(['active'=>'Active','inactive'=>'Inactive'])->default('active'),
             ]);
     }
@@ -39,14 +51,28 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name')->label('Name'),
-                TextColumn::make('type')->label('Type'),
+                TextColumn::make('name')->label('Name')->searchable(),
+                TextColumn::make('type')->label('Type')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state) => self::$typeLabels[$state] ?? $state)
+                    ->color(fn (?string $state) => match ($state) {
+                        'news' => 'info',
+                        'achievements' => 'warning',
+                        'announcements' => 'success',
+                        default => 'gray',
+                    }),
                 TextColumn::make('slug')->label('Slug'),
-                TextColumn::make('status')->label('Status'),
-                TextColumn::make('created_at')->label('Created at'),
+                TextColumn::make('status')->label('Status')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state) => ucfirst((string) $state))
+                    ->color(fn (?string $state) => $state === 'active' ? 'success' : 'gray'),
+                TextColumn::make('created_at')->label('Created at')->date()->sortable(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('type')
+                    ->options(self::$typeLabels),
+                Tables\Filters\SelectFilter::make('status')
+                    ->options(['active' => 'Active', 'inactive' => 'Inactive']),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

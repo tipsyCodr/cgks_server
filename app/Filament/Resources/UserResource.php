@@ -25,6 +25,12 @@ class UserResource extends Resource
 
 	protected static ?string $navigationIcon = 'heroicon-o-user';
 
+	protected static ?string $navigationGroup = 'सदस्य (Members)';
+
+	protected static ?string $navigationLabel = 'सदस्य (Users)';
+
+	protected static ?int $navigationSort = 1;
+
 	public static function getEloquentQuery(): Builder
 	{
 		return parent::getEloquentQuery()

@@ -17,7 +17,13 @@ class ShortResource extends Resource
 {
     protected static ?string $model = Short::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-film';
+
+    protected static ?string $navigationGroup = 'मीडिया (Media)';
+
+    protected static ?string $navigationLabel = 'शॉर्ट्स (Shorts)';
+
+    protected static ?int $navigationSort = 1;
 
     public static function form(Form $form): Form
     {
@@ -28,13 +34,15 @@ class ShortResource extends Resource
                 Forms\Components\TextInput::make('url')
                     ->required()
                     ->url()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->helperText('Full link to the YouTube / Instagram short.'),
                 Forms\Components\Select::make('platform')
                     ->options([
                         'youtube' => 'YouTube',
                         'instagram' => 'Instagram',
                     ]),
                 Forms\Components\Toggle::make('is_active')
+                    ->default(true)
                     ->required(),
             ]);
     }
@@ -46,11 +54,23 @@ class ShortResource extends Resource
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('url')
+                    ->label('Link')
+                    ->url(fn (Short $record) => $record->url)
+                    ->openUrlInNewTab()
+                    ->limit(40)
+                    ->color('primary')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('platform')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state) => $state ? ucfirst($state) : '—')
+                    ->color(fn (?string $state) => match ($state) {
+                        'youtube' => 'danger',
+                        'instagram' => 'info',
+                        default => 'gray',
+                    })
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Active'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -60,8 +80,15 @@ class ShortResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('platform')
+                    ->options([
+                        'youtube' => 'YouTube',
+                        'instagram' => 'Instagram',
+                    ]),
+                Tables\Filters\TernaryFilter::make('is_active')
+                    ->label('Active'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

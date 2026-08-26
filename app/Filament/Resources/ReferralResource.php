@@ -7,6 +7,8 @@ use App\Filament\Resources\ReferralResource\RelationManagers;
 use App\Models\Referral;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -19,11 +21,32 @@ class ReferralResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
+    protected static ?string $navigationGroup = 'सदस्य (Members)';
+
+    protected static ?string $navigationLabel = 'रेफ़रल (Referrals)';
+
+    protected static ?int $navigationSort = 2;
+
+    public static function canCreate(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
 
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Infolists\Components\TextEntry::make('referredBy.name')->label('Referred By'),
+                Infolists\Components\TextEntry::make('referredTo.name')->label('Referred To'),
+                Infolists\Components\TextEntry::make('created_at')->label('Date')->dateTime(),
             ]);
     }
 
@@ -47,10 +70,17 @@ class ReferralResource extends Resource
                     ->sortable(),
             ])->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\Filter::make('created_at')
+                    ->form([
+                        Forms\Components\DatePicker::make('from')->label('From'),
+                        Forms\Components\DatePicker::make('until')->label('Until'),
+                    ])
+                    ->query(fn (Builder $query, array $data) => $query
+                        ->when($data['from'], fn (Builder $q, $date) => $q->whereDate('created_at', '>=', $date))
+                        ->when($data['until'], fn (Builder $q, $date) => $q->whereDate('created_at', '<=', $date))),
             ])
             ->actions([
-                // Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

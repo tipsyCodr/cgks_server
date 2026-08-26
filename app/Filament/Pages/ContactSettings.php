@@ -19,7 +19,10 @@ class ContactSettings extends Page implements HasForms, HasActions
     use InteractsWithForms;
     use InteractsWithActions;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog';
+    protected static ?string $navigationIcon = 'heroicon-o-cog-6-tooth';
+    protected static ?string $navigationGroup = 'सेटिंग्स (Settings)';
+    protected static ?string $navigationLabel = 'संपर्क सेटिंग्स (Contact Settings)';
+    protected static ?int $navigationSort = 2;
     protected static string $view = 'filament.pages.contact-settings';
 
     public ?array $data = [];
