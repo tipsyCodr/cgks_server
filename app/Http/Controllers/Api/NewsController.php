@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\News;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Schema;
+
 class NewsController extends Controller
 {
     public function index()
     {
-        $newss = News::orderByRaw('COALESCE(published_date, created_at) DESC')->get();
-        return response()->json($newss,200);
+        $query = News::query();
+        if (Schema::hasColumn('news', 'published_date')) {
+            $query->orderByRaw('COALESCE(published_date, created_at) DESC');
+        } else {
+            $query->latest();
+        }
+        return response()->json($query->get(), 200);
     }
    public function show(Request $request)
    {
@@ -29,9 +36,12 @@ class NewsController extends Controller
     public function fetchByCategory(Request $request)
     {
         $categoryId = $request->category_id;
-        $news = News::where('category_id', $categoryId)
-            ->orderByRaw('COALESCE(published_date, created_at) DESC')
-            ->get();
-        return response()->json($news, 200);
+        $query = News::where('category_id', $categoryId);
+        if (Schema::hasColumn('news', 'published_date')) {
+            $query->orderByRaw('COALESCE(published_date, created_at) DESC');
+        } else {
+            $query->latest();
+        }
+        return response()->json($query->get(), 200);
     }
 }

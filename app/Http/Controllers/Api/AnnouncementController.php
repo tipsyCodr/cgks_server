@@ -6,12 +6,19 @@ use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Schema;
+
 class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::orderByRaw('COALESCE(published_date, created_at) DESC')->get();
-        return response()->json($announcements,200);
+        $query = Announcement::query();
+        if (Schema::hasColumn('announcements', 'published_date')) {
+            $query->orderByRaw('COALESCE(published_date, created_at) DESC');
+        } else {
+            $query->latest();
+        }
+        return response()->json($query->get(), 200);
     }
    public function show(Request $request)
    {
@@ -28,9 +35,12 @@ class AnnouncementController extends Controller
     public function fetchByCategory(Request $request)
     {
         $categoryId = $request->category_id;
-        $announcements = Announcement::where('category_id', $categoryId)
-            ->orderByRaw('COALESCE(published_date, created_at) DESC')
-            ->get();
-        return response()->json($announcements, 200);
+        $query = Announcement::where('category_id', $categoryId);
+        if (Schema::hasColumn('announcements', 'published_date')) {
+            $query->orderByRaw('COALESCE(published_date, created_at) DESC');
+        } else {
+            $query->latest();
+        }
+        return response()->json($query->get(), 200);
     }
 }
