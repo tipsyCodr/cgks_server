@@ -10,7 +10,7 @@ class NewsController extends Controller
 {
     public function index()
     {
-        $newss = News::all();
+        $newss = News::orderByRaw('COALESCE(published_date, created_at) DESC')->get();
         return response()->json($newss,200);
     }
    public function show(Request $request)
@@ -29,7 +29,9 @@ class NewsController extends Controller
     public function fetchByCategory(Request $request)
     {
         $categoryId = $request->category_id;
-        $news = News::where('category_id', $categoryId)->get();
+        $news = News::where('category_id', $categoryId)
+            ->orderByRaw('COALESCE(published_date, created_at) DESC')
+            ->get();
         return response()->json($news, 200);
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
 {
-    protected $fillable = ['title', 'content', 'category_id', 'image_url'];
+    protected $fillable = ['title', 'content', 'category_id', 'image_url', 'published_date'];
     public function category()
     {
         return $this->belongsTo(Category::class)->withDefault([

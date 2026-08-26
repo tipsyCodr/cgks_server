@@ -27,6 +27,7 @@ class AchievementResource extends Resource
             ->schema([
                 Forms\Components\FileUpload::make('image_url')
                     ->image()
+                    ->helperText('Recommended size: Max 5 MB (16:9 or 4:3 ratio)')
                     ->directory('achievements'),
                 Select::make('category_id')->label('Category')->options(
                     Category::where('type', 'news')->pluck('name', 'id')

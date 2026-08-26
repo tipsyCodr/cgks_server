@@ -34,10 +34,20 @@ class NewsResource extends Resource
                 Select::make('category_id')->label('Category')->options(
                     Category::where('type', 'news')->pluck('name', 'id')
                 ),
+                Forms\Components\DatePicker::make('published_date')
+                    ->label('Published Date')
+                    ->default(now())
+                    ->required(),
                 Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
-                FileUpload::make('image_url')->label('Image')->directory('announcement')->acceptedFileTypes(['image/*'])->maxSize(5120)->image(),
+                FileUpload::make('image_url')
+                    ->label('Image')
+                    ->directory('announcement')
+                    ->acceptedFileTypes(['image/*'])
+                    ->maxSize(5120)
+                    ->helperText('Recommended size: Max 5 MB (16:9 or 4:3 ratio)')
+                    ->image(),
             ]);
     }
 
@@ -45,8 +55,9 @@ class NewsResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('title')->label('Title'),
-                TextColumn::make('content')->label('Content'),
+                TextColumn::make('title')->label('Title')->searchable(),
+                TextColumn::make('published_date')->label('Published Date')->date()->sortable(),
+                TextColumn::make('content')->label('Content')->html()->limit(50),
                 ImageColumn::make('image_url')->label('Image')->url(fn($record) => $record->image_url),
             ])
             ->filters([

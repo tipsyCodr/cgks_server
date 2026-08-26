@@ -10,7 +10,7 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::all();
+        $announcements = Announcement::orderByRaw('COALESCE(published_date, created_at) DESC')->get();
         return response()->json($announcements,200);
     }
    public function show(Request $request)
@@ -28,7 +28,9 @@ class AnnouncementController extends Controller
     public function fetchByCategory(Request $request)
     {
         $categoryId = $request->category_id;
-        $announcements = Announcement::where('category_id', $categoryId)->get();
+        $announcements = Announcement::where('category_id', $categoryId)
+            ->orderByRaw('COALESCE(published_date, created_at) DESC')
+            ->get();
         return response()->json($announcements, 200);
     }
 }
