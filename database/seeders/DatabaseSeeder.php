@@ -15,20 +15,24 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@cgks.com',
-            'mobile' => '0987654321',
-            'password'=> bcrypt('cgks@bycrypt@123'),
-            'role' => 'admin',
-        ]);
-        User::factory()->create([
-            'name' => 'User',
-            'email' => 'user@cgks.com',
-            'mobile' => '1234567890',
-            'password'=> bcrypt('cgks@bycrypt@123'),
-            'role' => 'user',
-        ]);
+        User::firstOrCreate(
+            ['mobile' => '0987654321'],
+            [
+                'name' => 'Admin',
+                'email' => 'admin@cgks.com',
+                'password' => bcrypt('cgks@bycrypt@123'),
+                'role' => 'admin',
+            ]
+        );
+        User::firstOrCreate(
+            ['mobile' => '1234567890'],
+            [
+                'name' => 'User',
+                'email' => 'user@cgks.com',
+                'password' => bcrypt('cgks@bycrypt@123'),
+                'role' => 'user',
+            ]
+        );
 
         $this->call([
             NewsSeeder::class,
