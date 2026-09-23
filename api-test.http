@@ -1,0 +1,12 @@
+### Get Projects
+GET http://cgks.test/api/projects
+Accept: application/json
+
+### Create Project
+POST http://cgks.test/api/projects
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "Test Project"
+}

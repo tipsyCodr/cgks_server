@@ -30,5 +30,14 @@ class DatabaseSeeder extends Seeder
             'role' => 'user',
         ]);
 
+        $this->call([
+            NewsSeeder::class,
+            AnnouncementSeeder::class,
+            AndolanSeeder::class,
+            BhaakhaAuSanskrtiSeeder::class,
+            PurakhaSeeder::class,
+            LiveVideoSeeder::class,
+            GallerySeeder::class,
+        ]);
     }
 }

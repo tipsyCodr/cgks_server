@@ -1,0 +1,30 @@
+.object-fit_fill { object-fit: fill }
+.object-fit_contain { object-fit: contain }
+.object-fit_cover { object-fit: cover }
+.object-fit_none { object-fit: none }
+.object-fit_scale-down { object-fit: scale-down }
+
+
+.image img { height: 220px; background-color: #444;}
+
+.image img[class] { 
+  width: 100%;
+}
+
+.image .original-image {
+  margin-bottom: 50px;
+}
+
+.image .image {
+  float: left;
+  width: 40%;
+  margin: 0 30px 20px 0;
+  
+  &:nth-child(2n) {
+    clear: left;
+  }
+  
+  &:nth-child(2n+1){
+    margin-right: 0;
+  }
+}

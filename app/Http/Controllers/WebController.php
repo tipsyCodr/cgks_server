@@ -6,6 +6,11 @@ use App\Models\ExpressionOfInterest;
 use App\Models\Feedback;
 use App\Models\Media;
 use App\Models\Meeting;
+use App\Models\News;
+use App\Models\Announcement;
+use App\Models\LiveVideo;
+use App\Models\Gallery;
+use App\Models\GalleryPhoto;
 use ErrorException;
 use Illuminate\Http\Request;
 use App\Models\Settings;
@@ -15,16 +20,96 @@ class WebController extends Controller
     public function home(){
 
         $gallery = Media::orderBy('created_at', 'desc')->take(4)->get();
+        $news = News::orderBy('published_date', 'desc')->take(6)->get();
+        $liveVideo = LiveVideo::where('is_active', true)->latest()->first();
         $settings = [
             'mobile' => Settings::getSetting('mobile'),
             'email' => Settings::getSetting('email'),
             'location' => Settings::getSetting('location'),
         ];
-        return view('welcome', compact( 'settings','gallery'));
+        return view('welcome', compact('settings', 'gallery', 'news', 'liveVideo'));
     }
     public function gallery(){
-        $gallery = Media::all();
-        return view('gallery',compact('gallery'));
+        $albums = Gallery::withCount('photos')
+            ->orderBy('id', 'desc')
+            ->paginate(16);
+        return view('photo-gallery', compact('albums'));
+    }
+
+    public function photoGalleryView($id){
+        $album = Gallery::with('photos')->findOrFail($id);
+        $photos = $album->photos()->paginate(24);
+        return view('photo-gallery-view', compact('album', 'photos'));
+    }
+
+    public function videoGallery(){
+        $videos = LiveVideo::where('is_active', true)
+            ->orderBy('id', 'desc')
+            ->paginate(12);
+        return view('video-gallery', compact('videos'));
+    }
+
+    public function audioGallery(){
+        return view('audio-gallery');
+    }
+
+    public function contactUs(){
+        return view('contact-us');
+    }
+
+    public function aboutUs(){
+        return view('about-us');
+    }
+
+    public function pressRelease(){
+        $news = News::orderBy('published_date', 'desc')->paginate(10);
+        return view('press-release', compact('news'));
+    }
+
+    public function pressReleaseView($id){
+        $newsItem = News::findOrFail($id);
+        return view('press-release-view', compact('newsItem'));
+    }
+
+    public function karyakram(){
+        $karyakram = Announcement::orderBy('published_date', 'desc')->paginate(10);
+        return view('karyakram', compact('karyakram'));
+    }
+
+    public function aandolan(){
+        $andolans = News::whereHas('category', fn($q) => $q->where('slug', 'andolan'))
+            ->orderBy('published_date', 'desc')
+            ->paginate(10);
+        return view('aandolan', compact('andolans'));
+    }
+
+    public function aandolanView($id){
+        $andolan = News::findOrFail($id);
+        return view('aandolan-view', compact('andolan'));
+    }
+
+    public function bhaakhaAuSanskrti(){
+        $items = News::whereHas('category', fn($q) => $q->where('slug', 'bhaakha-au-sanskrti'))
+            ->orderBy('published_date', 'desc')
+            ->paginate(10);
+        return view('bhaakha-au-sanskrti', compact('items'));
+    }
+
+    public function bhaakhaAuSanskrtiView($id){
+        $item = News::findOrFail($id);
+        return view('bhaakha-au-sanskrti-view', compact('item'));
+    }
+
+    public function purakha(){
+        $purakha = News::whereHas('category', fn($q) => $q->where('slug', 'purakha'))
+            ->orderBy('published_date', 'desc')
+            ->paginate(10);
+        return view('purakha', compact('purakha'));
+    }
+
+    public function purakhaView($id){
+        $item = News::findOrFail($id);
+        return view('purakha-view', compact('item'));
     }
     public function feedbackStore(Request $request){
         try{

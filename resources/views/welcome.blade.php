@@ -1,400 +1,230 @@
-<x-app>
-<body class="bg-gray-50" x-data="bgRotator()" x-init="start()">
+<x-frontend>
+@section('title', 'छत्तीसगढ़िया क्रान्ति सेना | मुख्य पृष्ठ')
 
-    <!-- Hero Section -->
-    <section id="home" class="relative text-white pt-32 pb-32 overflow-hidden min-h-[90vh]">
-        <!-- Background with fade transition -->
-        <template x-for="(image, index) in images" :key="index">
-            <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000"
-                :style="'background-image: url(img/banner/' + image + '.png)'"
-                :class="{ 'opacity-100': index === counter, 'opacity-0': index !== counter }">
-            </div>
-        </template>
+<!-- Hero Banner -->
+<section class="cks-hero">
+	<div class="cks-hero-bg">
+		<img src="{{ asset('frontend/img/header/hero-banner-bg-hd.jpg') }}" alt="जय छत्तीसगढ़ महतारी" class="cks-hero-bg-img">
+	</div>
+	<div class="container cks-hero-container">
+		<div class="cks-hero-content">
+			<div class="cks-hero-title-row">
+				<span class="cks-hero-hash">#</span>
+				<h1>जात-पात के करब बिदाई<br>छत्तीसगढ़िया भाई-भाई</h1>
+			</div>
+			<p class="cks-hero-sub">
+				<span class="cks-hero-sub-line"></span>
+				एक संगठित समाज, एक सशक्त छत्तीसगढ़
+				<span class="cks-hero-sub-line"></span>
+			</p>
+			<div class="cks-hero-actions">
+				<a href="{{ url('/membership') }}" class="cks-btn cks-btn-primary"><i class="fa fa-user-plus"></i> सदस्य बनें</a>
+				<a href="{{ url('/about-us') }}" class="cks-btn cks-btn-outline">हमारे बारे में जानें <i class="fa fa-arrow-right"></i></a>
+				<a href="{{ url('/about-us') }}" class="cks-btn cks-btn-pill">जय छत्तीसगढ़ महतारी</a>
+			</div>
+		</div>
+	</div>
+</section>
 
-        <!-- Main Content -->
-        <div class="relative z-10 container mx-auto px-4 max-w-8xl">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+<!-- Home Content Area -->
+<section class="cks-home-area">
+<div class="container">
+<div class="cks-home">
 
-                <div class="space-y-6">
-                    <button @click="paused = !paused"
-                        class="text-sm mt-6 px-4 py-2 bg-white/10 border border-white/20 rounded hover:bg-white/20 transition flex items-center space-x-2">
-                        <span>
-                            <i class="fas fa-play" x-show="paused"></i>
-                            <i class="fas fa-pause" x-show="!paused"></i>
-                        </span>
-                        {{-- <span x-text="paused ? 'Resume Background' : 'Pause Background'"></span> --}}
-                    </button>
-                    <h1 class="text-4xl md:text-6xl font-bold leading-tight">
-                        Welcome to <span class="text-[#ff8001]">{{ env('APP_INITIALS') }}</span>
-                    </h1>
-                    <h2 class="text-xl md:text-2xl text-[#ff8001]">
-                        {{ env('APP_NAME') }}
-                    </h2>
-                    <p class="text-lg text-green-100 leading-relaxed">
-                        The region's premier platform for entrepreneurs to connect, collaborate, and grow together.
-                        Unite Chhattisgarh's business community through powerful weekly networking.
-                    </p>
-                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
-                        <p class="text-[#ff8001] font-semibold italic text-lg">
-                            "From Businessman to Businessman – A local network to grow local business"
-                        </p>
-                    </div>
-                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        {{-- <a href="#join"
-                            class="bg-[#ff8001] text-[#013f3a] px-8 py-4 rounded-lg font-bold hover:bg-orange-400 transition duration-300 text-center">
-                            <i class="fas fa-user-plus mr-2"></i>Join Now
-                        </a> --}}
-                        <a href="#events"
-                            class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-bold hover:bg-white hover:text-[#013f3a] transition duration-300 text-center">
-                            <i class="fas fa-calendar mr-2"></i>Attend a Meeting
-                        </a>
-                    </div>
+	<!-- LEFT: Press Release -->
+	<aside class="cks-home-left">
+		<div class="cks-card cks-press-card">
+			<div class="cks-card-head">
+				<span class="cks-card-icon cks-icon-red"><i class="fa fa-bullhorn"></i></span>
+				<h2>PRESS <span>RELEASE</span></h2>
+				<a href="{{ url('/press-release') }}" class="cks-see-all cks-press-see-all">सभी देखें →</a>
+			</div>
+			<div class="cks-press-list">
+			@forelse($news as $item)
+				<a class="cks-press-item" href="{{ url('/press-release/' . $item->id) }}">
+					<img src="{{ $item->image_url ? asset('frontend/uploads/press_release/' . $item->image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}">
+					<span class="cks-press-meta">
+						<span class="cks-press-title">{{ $item->title }}</span>
+						<span class="cks-press-date"><i class="fa fa-calendar"></i> {{ $item->published_date ?? $item->created_at?->format('d M Y') }}</span>
+					</span>
+				</a>
+			@empty
+				<div class="text-center p-3 text-muted">कोई प्रेस विज्ञप्ति उपलब्ध नहीं है।</div>
+			@endforelse
+			</div>
+			<a href="{{ url('/press-release') }}" class="cks-btn-solid">सभी प्रेस रिलीज़ देखें <i class="fa fa-arrow-right"></i></a>
+		</div>
+	</aside>
 
+	<!-- CENTER -->
+	<div class="cks-home-main">
+		<div class="cks-feature-row">
+			<!-- कार्यक्रम -->
+			<div class="cks-card cks-feature-card">
+				<div class="cks-feature-head">
+					<span class="cks-card-icon cks-icon-red"><i class="fa fa-calendar"></i></span>
+					<div>
+						<h3>कार्यक्रम</h3>
+						<a href="{{ url('/karyakram') }}" class="cks-see-all">सब देखें →</a>
+					</div>
+				</div>
+				<ul class="cks-check-list">
+					<li><a href="{{ url('/karyakram') }}">आगामी कार्यक्रम एवं बैठक</a></li>
+					<li><a href="{{ url('/karyakram') }}">जिला स्तरीय सम्मेलन</a></li>
+					<li><a href="{{ url('/karyakram') }}">सांस्कृतिक आयोजन</a></li>
+					<li><a href="{{ url('/karyakram') }}">प्रशिक्षण शिविर</a></li>
+					<li><a href="{{ url('/karyakram') }}">जनसंपर्क अभियान</a></li>
+				</ul>
+				<a href="{{ url('/karyakram') }}" class="cks-btn-outline-sm">सभी कार्यक्रम देखें →</a>
+			</div>
 
-                </div>
+			<!-- आंदोलन -->
+			<div class="cks-card cks-feature-card">
+				<div class="cks-feature-head">
+					<span class="cks-card-icon cks-icon-red"><i class="fa fa-hand-o-up"></i></span>
+					<div>
+						<h3>आंदोलन</h3>
+						<a href="{{ url('/aandolan') }}" class="cks-see-all">सब देखें →</a>
+					</div>
+				</div>
+				<ul class="cks-check-list">
+					<li><a href="{{ url('/aandolan') }}">माटी के हक बर आंदोलन</a></li>
+					<li><a href="{{ url('/aandolan') }}">युवा रोजगार अधिकार पदयात्रा</a></li>
+					<li><a href="{{ url('/aandolan') }}">जल-जंगल-जमीन बचाओ अभियान</a></li>
+					<li><a href="{{ url('/aandolan') }}">छत्तीसगढ़िया मान-सम्मान रक्षा</a></li>
+					<li><a href="{{ url('/aandolan') }}">स्थानीय आरक्षण मांग</a></li>
+				</ul>
+				<a href="{{ url('/aandolan') }}" class="cks-btn-outline-sm">सभी आंदोलन देखें →</a>
+			</div>
 
-            </div>
-        </div>
-    </section>
+			<!-- संस्कृति -->
+			<div class="cks-card cks-feature-card">
+				<div class="cks-feature-head">
+					<span class="cks-card-icon cks-icon-red"><i class="fa fa-users"></i></span>
+					<div>
+						<h3>छत्तीसगढ़िया संस्कृति</h3>
+						<a href="{{ url('/bhaakha-au-sanskrti') }}" class="cks-see-all">सब देखें →</a>
+					</div>
+				</div>
+				<ul class="cks-check-list">
+					<li><a href="{{ url('/bhaakha-au-sanskrti') }}">लोक कला एवं संस्कृति</a></li>
+					<li><a href="{{ url('/purakha') }}">हमर पुरखा</a></li>
+					<li><a href="{{ url('/hamar-buta') }}">हमर बुता</a></li>
+					<li><a href="{{ url('/bhaakha-au-sanskrti') }}">त्योहार एवं परंपरा (हरेली, पोरा, तीजा)</a></li>
+					<li><a href="{{ url('/bhaakha-au-sanskrti') }}">छत्तीसगढ़ी महतारी वंदना</a></li>
+				</ul>
+				<a href="{{ url('/bhaakha-au-sanskrti') }}" class="cks-btn-outline-sm">सभी संस्कृति देखें →</a>
+			</div>
 
-        <!-- About Section -->
-        <section id="about" class="py-16 max-w-7xl mx-auto bg-white">
-            <div class="container mx-auto px-4">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-[#013f3a] mb-4">About {{ env('APP_INITIALS') }}</h2>
-                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                        {{ env('APP_INITIALS') }} was founded to bridge the gap between local entrepreneurs in Chhattisgarh by creating a
-                        structured, referral-driven business network where members help each other grow.
-                    </p>
-                </div>
+			<!-- मीडिया -->
+			<div class="cks-card cks-feature-card">
+				<div class="cks-feature-head">
+					<span class="cks-card-icon cks-icon-red"><i class="fa fa-play-circle"></i></span>
+					<div>
+						<h3>मीडिया</h3>
+						<a href="{{ url('/gallery') }}" class="cks-see-all">सब देखें →</a>
+					</div>
+				</div>
+				<ul class="cks-check-list">
+					<li><a href="{{ url('/press-release') }}">प्रेस रिलीज़</a></li>
+					<li><a href="{{ url('/gallery') }}">फोटो गैलरी</a></li>
+					<li><a href="{{ url('/video-gallery') }}">वीडियो गैलरी</a></li>
+					<li><a href="{{ url('/audio-gallery') }}">ऑडियो गैलरी</a></li>
+					<li><a href="{{ url('/publication') }}">पब्लिकेशन</a></li>
+				</ul>
+				<a href="{{ url('/gallery') }}" class="cks-btn-outline-sm">सभी मीडिया देखें →</a>
+			</div>
+		</div>
 
-                <div class="grid md:grid-cols-2 gap-12">
-                    <div class="flex flex-col h-full space-y-8">
-                        <div class="bg-gradient-to-br from-[#013f3a] to-indigo-600 text-white p-8 rounded-xl flex-1 flex flex-col">
-                            <h3 class="text-2xl font-bold mb-4">
-                                <i class="fas fa-eye mr-3"></i>Our Vision
-                            </h3>
-                            <p class="leading-relaxed flex-1">
-                                To empower local entrepreneurs of Chhattisgarh by building a trusted business network
-                                that promotes collaboration, growth, and opportunities through regional connection and
-                                community support.
-                            </p>
-                        </div>
+		<!-- CKS LIVE -->
+		<div class="cks-card cks-live-card">
+			<div class="cks-live-head">
+				<span class="cks-card-icon cks-icon-red"><i class="fa fa-wifi"></i></span>
+				<div>
+					<h3>CKS LIVE</h3>
+					<p>छत्तीसगढ़िया क्रांति सेना, छत्तीसगढ़ <span class="cks-live-badge">● LIVE</span></p>
+				</div>
+				<a href="https://twitter.com/ckschhattisgarh" target="_blank" rel="noopener" class="cks-btn-outline-sm cks-live-btn"><i class="fa fa-twitter"></i> पर देखें →</a>
+			</div>
+			<div class="cks-live-body">
+				<a class="twitter-timeline" href="https://twitter.com/ckschhattisgarh?ref_src=twsrc%5Etfw" data-height="220">Tweets by ckschhattisgarh</a>
+				<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+			</div>
+		</div>
 
-                        <div
-                            class="bg-gradient-to-r from-[#ff8001]/10 to-orange-50 p-6 rounded-xl border-l-4 border-[#ff8001] flex-1 flex flex-col">
-                            <h3 class="text-2xl font-bold text-[#ff8001] mb-4">
-                                <i class="fas fa-star text-[#ff8001] mr-3"></i>Our Uniqueness
-                            </h3>
-                            <ul class="space-y-3 text-gray-600 flex-1">
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-[#013f3a] mr-3 mt-1"></i>
-                                    We operate 100% in Chhattisgarhi, ensuring comfort and relatability
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-check-circle text-[#013f3a] mr-3 mt-1"></i>
-                                    Our community is built on trust, collaboration, and growth
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+		<!-- CTA strips -->
+		<div class="cks-cta-row">
+			<div class="cks-cta-strip cks-cta-membership">
+				<span class="cks-cta-icon"><i class="fa fa-users"></i></span>
+				<div class="cks-cta-text">
+					<strong>जबर सदस्यता अभियान</strong>
+					<span>संगठन से जुड़ें और छत्तीसगढ़िया समाज के हक में काम करें</span>
+				</div>
+				<a href="{{ url('/membership') }}" class="cks-btn-outline-sm">अभी जुड़ें →</a>
+			</div>
 
-                    <div class="flex flex-col h-full space-y-6">
-                        <div class="bg-gradient-to-br from-[#ff8001] to-teal-600 text-white p-8 rounded-xl flex-1 flex flex-col">
-                            <h3 class="text-2xl font-bold mb-4">
-                                <i class="fas fa-bullseye mr-3"></i>Our Mission
-                            </h3>
-                            <p class="leading-relaxed flex-1">
-                                Our mission is to create a strong and inclusive business ecosystem in Chhattisgarh where
-                                business owners can connect, exchange referrals, grow their businesses, and learn from
-                                each other — all while embracing the pride of our local language and culture.
-                            </p>
-                        </div>
+			<div class="cks-cta-strip cks-cta-audio">
+				<span class="cks-cta-icon"><i class="fa fa-headphones"></i></span>
+				<div class="cks-cta-text">
+					<strong>ऑडियो गैलरी</strong>
+					<span>भाषण, गीत और संदेश सुनें</span>
+				</div>
+				<a href="{{ url('/audio-gallery') }}" class="cks-btn-outline-sm">सभी ऑडियो देखें →</a>
+			</div>
 
-                        <div
-                            class="bg-gradient-to-r from-[#013f3a]/10 to-indigo-50 p-6 rounded-xl border-l-4 border-[#013f3a] flex-1 flex flex-col">
-                            <h3 class="text-2xl font-bold text-[#013f3a] mb-4">
-                                <i class="fas fa-lightbulb text-[#013f3a] mr-3"></i>Why {{ env('APP_INITIALS') }} Was Started
-                            </h3>
-                            <p class="text-gray-600 leading-relaxed flex-1">
-                                Many small and medium business owners in Chhattisgarh lack structured networking
-                                platforms. {{ env('APP_INITIALS') }} was born to fill that gap by providing a supportive, local language-based
-                                ecosystem.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+			<div class="cks-cta-strip cks-cta-contact">
+				<span class="cks-cta-icon"><i class="fa fa-envelope"></i></span>
+				<div class="cks-cta-text">
+					<strong>संपर्क करें</strong>
+					<span>सवाल, सुझाव या सहयोग के लिए हमसे जुड़ें</span>
+				</div>
+				<a href="{{ url('/contact-us') }}" class="cks-btn-outline-sm">संपर्क करें →</a>
+			</div>
+		</div>
+	</div>
 
-        <!-- Core Values Section -->
-        <section class="py-16 bg-[#013f3a]  text-white">
-            <div class="container max-w-7xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold mb-4">Our Core Values</h2>
-                <p class="text-xl text-green-100">The principles that guide our community</p>
-            </div>
+	<!-- RIGHT: Galleries -->
+	<aside class="cks-home-right">
+		<div class="cks-card cks-gallery-card">
+			<div class="cks-gallery-head">
+				<h3>वीडियो गैलरी</h3>
+				<a href="{{ url('/video-gallery') }}" class="cks-see-all">सब देखें →</a>
+			</div>
+			<div class="cks-video-wrap">
+				@if(!empty($liveVideo) && $liveVideo->video_id)
+					<iframe src="https://www.youtube.com/embed/{{ $liveVideo->video_id }}" frameborder="0" allowfullscreen title="{{ $liveVideo->title }}"></iframe>
+				@else
+					<iframe src="https://www.youtube.com/embed/28y1f-Xh17A" frameborder="0" allowfullscreen title="Chhattisgarhiya Kranti Sena"></iframe>
+				@endif
+			</div>
+		</div>
 
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white/10 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-white/20">
-                <div class="bg-[#ff8001]/20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-handshake text-[#ff8001] text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Trust & Integrity</h3>
-                <p class="text-green-100">Building strong relationships based on mutual respect and ethical practices.</p>
-                </div>
+		<div class="cks-card cks-gallery-card">
+			<div class="cks-gallery-head">
+				<h3>फोटो गैलरी</h3>
+				<a href="{{ url('/gallery') }}" class="cks-see-all">सब देखें →</a>
+			</div>
+			<div class="cks-photo-grid">
+			@forelse($gallery as $key => $img)
+				<a href="{{ url('/gallery') }}" class="cks-photo-item {{ $loop->first ? 'cks-photo-large' : '' }}">
+					<img src="{{ str_starts_with($img->file, 'http') ? $img->file : asset('storage/' . $img->file) }}" alt="{{ $img->title ?? 'Gallery' }}">
+				</a>
+			@empty
+				<a href="{{ url('/gallery') }}" class="cks-photo-item cks-photo-large">
+					<img src="{{ asset('frontend/img/gallery1.jpg') }}" alt="Gallery">
+				</a>
+				<a href="{{ url('/gallery') }}" class="cks-photo-item">
+					<img src="{{ asset('frontend/img/gallery2.jpg') }}" alt="Gallery">
+				</a>
+				<a href="{{ url('/gallery') }}" class="cks-photo-item">
+					<img src="{{ asset('frontend/img/gallery3.jpg') }}" alt="Gallery">
+				</a>
+			@endforelse
+			</div>
+		</div>
+	</aside>
 
-                <div class="bg-white/10 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-white/20">
-                <div class="bg-[#ff8001]/20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-users text-[#ff8001] text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Local Empowerment</h3>
-                <p class="text-green-100">Supporting and uplifting local businesses across Chhattisgarh.</p>
-                </div>
-
-                <div class="bg-white/10 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-white/20">
-                <div class="bg-[#ff8001]/20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-rocket text-[#ff8001] text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Collaboration Over Competition</h3>
-                <p class="text-green-100">Growing together through meaningful partnerships and referrals.</p>
-                </div>
-
-                <div class="bg-white/10 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-white/20">
-                <div class="bg-[#ff8001]/20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-heart text-[#ff8001] text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Cultural Pride</h3>
-                <p class="text-green-100">Conducting business in Chhattisgarhi to keep our language and identity alive in the professional world.</p>
-                </div>
-
-                <div class="bg-white/10 p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 border border-white/20 md:col-span-2 lg:col-span-1">
-                <div class="bg-[#ff8001]/20 w-16 h-16 rounded-full flex items-center justify-center mb-4">
-                    <i class="fas fa-chart-line text-[#ff8001] text-2xl"></i>
-                </div>
-                <h3 class="text-xl font-bold mb-3">Commitment to Growth</h3>
-                <p class="text-green-100">Helping every member grow personally and professionally through shared learning and support.</p>
-                </div>
-            </div>
-            </div>
-        </section>
-
-        <!-- How It Works Section -->
-        <section id="how-it-works" class="max-w-7xl mx-auto py-16 bg-white">
-            <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-[#013f3a] mb-4">How It Works</h2>
-                <p class="text-xl text-gray-600">Simple steps to join and benefit from our network</p>
-            </div>
-
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Membership Process -->
-                <div class="bg-gradient-to-br from-[#013f3a]/10 to-[#ff8001]/10 p-8 rounded-xl">
-                <h3 class="text-2xl font-bold text-[#013f3a] mb-6">
-                    <i class="fas fa-user-plus text-[#013f3a] mr-3"></i>Membership Process
-                </h3>
-                <div class="space-y-4">
-                    <div class="flex items-center space-x-3">
-                    <div
-                        class="bg-[#013f3a] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                        1</div>
-                    <span>Fill the online form</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <div
-                        class="bg-[#013f3a] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                        2</div>
-                    <span>Attend an introductory meeting</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <div
-                        class="bg-[#013f3a] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold">
-                        3</div>
-                    <span>Undergo basic orientation</span>
-                    </div>
-                </div>
-                </div>
-
-                <!-- Weekly Meeting Flow -->
-                <div class="bg-gradient-to-br from-[#013f3a]/10 to-[#ff8001]/10 p-8 rounded-xl">
-                <h3 class="text-2xl font-bold text-[#013f3a] mb-6">
-                    <i class="fas fa-calendar-week text-[#013f3a] mr-3"></i>Weekly Meeting Flow
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-circle text-[#013f3a] text-xs"></i>
-                    <span>Member Introductions</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-circle text-[#013f3a] text-xs"></i>
-                    <span>Business Presentations</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-circle text-[#013f3a] text-xs"></i>
-                    <span>Referral Exchange</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-circle text-[#013f3a] text-xs"></i>
-                    <span>Training/Guest Sessions</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-circle text-[#013f3a] text-xs"></i>
-                    <span>Networking Time</span>
-                    </div>
-                </div>
-                </div>
-
-                <!-- What Members Get -->
-                <div class="bg-gradient-to-br from-[#ff8001]/10 to-[#013f3a]/10 p-8 rounded-xl">
-                <h3 class="text-2xl font-bold text-[#ff8001] mb-6">
-                    <i class="fas fa-gift text-[#ff8001] mr-3"></i>What Members Get
-                </h3>
-                <div class="space-y-3">
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-star text-[#ff8001]"></i>
-                    <span>High-quality leads</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-star text-[#ff8001]"></i>
-                    <span>Regular exposure</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-star text-[#ff8001]"></i>
-                    <span>Business growth education</span>
-                    </div>
-                    <div class="flex items-center space-x-3">
-                    <i class="fas fa-star text-[#ff8001]"></i>
-                    <span>A trusted support system</span>
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
-        </section>
-
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-16 bg-gray-50">
-            <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl font-bold text-[#013f3a] mb-4">Contact Us</h2>
-                <p class="text-xl text-gray-600">Have Questions? We're Here to Help!</p>
-            </div>
-
-            <div class="grid lg:grid-cols-2 gap-12">
-                <div class="space-y-8">
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                    <h3 class="text-2xl font-bold text-[#013f3a] mb-6">Get in Touch</h3>
-
-                    <div class="space-y-6">
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-[#013f3a]/10 p-3 rounded-full">
-                        <i class="fas fa-phone text-[#013f3a] text-xl"></i>
-                        </div>
-                        <div>
-                        <h4 class="font-semibold text-[#013f3a]">Phone</h4>
-                        <p class="text-gray-600">+91 XXXXX XXXXX</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-[#ff8001]/10 p-3 rounded-full">
-                        <i class="fas fa-envelope text-[#ff8001] text-xl"></i>
-                        </div>
-                        <div>
-                        <h4 class="font-semibold text-[#013f3a]">Email</h4>
-                        <p class="text-gray-600">info@cbnchhattisgarh.com</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-[#ff8001]/10 p-3 rounded-full">
-                        <i class="fas fa-map-marker-alt text-[#ff8001] text-xl"></i>
-                        </div>
-                        <div>
-                        <h4 class="font-semibold text-[#013f3a]">Office/Meeting Venue</h4>
-                        <p class="text-gray-600">Hotel Central Park, Bhilai</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <div class="bg-[#013f3a]/10 p-3 rounded-full">
-                        <i class="fab fa-whatsapp text-[#013f3a] text-xl"></i>
-                        </div>
-                        <div>
-                        <h4 class="font-semibold text-[#013f3a]">WhatsApp</h4>
-                        <a href="#" class="text-[#013f3a] hover:text-[#ff8001]">Send Message</a>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="bg-gradient-to-br from-[#013f3a] to-[#ff8001] text-white p-8 rounded-xl">
-                    <h3 class="text-2xl font-bold mb-4">Ready to Network?</h3>
-                    <p class="mb-6">Join our next meeting and experience the power of {{ env('APP_INITIALS') }} networking in action.
-                    </p>
-                    <a href="#events"
-                    class="bg-white text-[#013f3a] px-6 py-3 rounded-lg font-bold hover:bg-[#ff8001] hover:text-white transition duration-300 inline-block">
-                    <i class="fas fa-calendar-plus mr-2"></i>Register for Meeting
-                    </a>
-                </div>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg">
-                <form action="{{ route('store.feedback') }}" method="POST" class="space-y-6">
-                    @csrf
-                    <div>
-                    <label class="block text-sm font-semibold text-[#013f3a] mb-2">Full Name *</label>
-                    <input type="text" name="name" required
-                        class="w-full px-4 py-3 rounded-lg border border-[#013f3a]/30 focus:outline-none focus:ring-2 focus:ring-[#ff8001] focus:border-transparent">
-                    </div>
-
-                    <div>
-                    <label class="block text-sm font-semibold text-[#013f3a] mb-2">Phone Number *</label>
-                    <input type="tel" name="mobile" required
-                        class="w-full px-4 py-3 rounded-lg border border-[#013f3a]/30 focus:outline-none focus:ring-2 focus:ring-[#ff8001] focus:border-transparent">
-                    </div>
-
-                    <div>
-                    <label class="block text-sm font-semibold text-[#013f3a] mb-2">Email Address *</label>
-                    <input type="email" name="email" required
-                        class="w-full px-4 py-3 rounded-lg border border-[#013f3a]/30 focus:outline-none focus:ring-2 focus:ring-[#ff8001] focus:border-transparent">
-                    </div>
-
-                    <div>
-                    <label class="block text-sm font-semibold text-[#013f3a] mb-2">Your Message *</label>
-                    <textarea name="message" rows="5" required
-                        class="w-full px-4 py-3 rounded-lg border border-[#013f3a]/30 focus:outline-none focus:ring-2 focus:ring-[#ff8001] focus:border-transparent"></textarea>
-                    </div>
-
-                    <button type="submit"
-                    class="w-full bg-[#ff8001] text-[#013f3a] px-8 py-4 rounded-lg font-bold hover:bg-[#013f3a] hover:text-white transition duration-300">
-                    <i class="fas fa-paper-plane mr-2"></i>Send Message
-                    </button>
-                </form>
-                </div>
-            </div>
-            </div>
-        </section>
- <!-- Alpine Component -->
-    <script>
-        function bgRotator() {
-            return {
-                images: [1, 2], // Add your banner image numbers
-                counter: 0,
-                paused: false,
-                intervalId: null,
-
-                start() {
-                    this.intervalId = setInterval(() => {
-                        if (!this.paused) {
-                            this.counter = (this.counter + 1) % this.images.length;
-                        }
-                    }, 4000); // Change image every 4 seconds
-                }
-            };
-        }
-    </script>
-
-
-</x-app>
+</div>
+</div>
+</section>
+</x-frontend>

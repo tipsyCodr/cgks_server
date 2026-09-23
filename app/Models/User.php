@@ -21,6 +21,28 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'name2',
+        'father_name',
+        'mother_name',
+        'dob',
+        'gender',
+        'adhar_no',
+        'ppatra',
+        'house_no',
+        'tahasil',
+        'state',
+        'thana',
+        'post_office',
+        'pin_code',
+        'panchayat',
+        'vidhansabha',
+        'loksabha',
+        'edu',
+        'computer',
+        'ruchi',
+        'facebook',
+        'twitter',
+        'other_des',
         'bio',
         'mobile',
         'email',
@@ -68,6 +90,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'active' => 'boolean',
+            'ruchi' => 'array',
         ];
     }
 
