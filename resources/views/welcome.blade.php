@@ -206,17 +206,19 @@
 			</div>
 			<div class="cks-photo-grid">
 			@forelse($gallery as $key => $img)
-				<a href="{{ url('/gallery') }}" class="cks-photo-item {{ $loop->first ? 'cks-photo-large' : '' }}">
-					<img src="{{ str_starts_with($img->file, 'http') ? $img->file : asset('storage/' . $img->file) }}" alt="{{ $img->title ?? 'Gallery' }}">
+				<a href="{{ url('/photo-gallery/' . $img->id) }}" class="cks-photo-item {{ $loop->first ? 'cks-photo-large' : '' }}" title="{{ $img->title }}">
+					<img src="{{ $img->cover_image ? asset('frontend/uploads/gallery/' . $img->cover_image) : asset('frontend/img/gallery' . ($loop->iteration) . '.jpg') }}" 
+						alt="{{ $img->title ?? 'Gallery' }}"
+						onerror="this.onerror=null; this.src='{{ asset('frontend/img/gallery1.jpg') }}';">
 				</a>
 			@empty
-				<a href="{{ url('/gallery') }}" class="cks-photo-item cks-photo-large">
+				<a href="{{ url('/photo-gallery') }}" class="cks-photo-item cks-photo-large">
 					<img src="{{ asset('frontend/img/gallery1.jpg') }}" alt="Gallery">
 				</a>
-				<a href="{{ url('/gallery') }}" class="cks-photo-item">
+				<a href="{{ url('/photo-gallery') }}" class="cks-photo-item">
 					<img src="{{ asset('frontend/img/gallery2.jpg') }}" alt="Gallery">
 				</a>
-				<a href="{{ url('/gallery') }}" class="cks-photo-item">
+				<a href="{{ url('/photo-gallery') }}" class="cks-photo-item">
 					<img src="{{ asset('frontend/img/gallery3.jpg') }}" alt="Gallery">
 				</a>
 			@endforelse

@@ -19,9 +19,9 @@ class WebController extends Controller
 {
     public function home(){
 
-        $gallery = Media::orderBy('created_at', 'desc')->take(4)->get();
+        $gallery = Gallery::orderBy('id', 'desc')->take(3)->get();
         $news = News::orderBy('published_date', 'desc')->take(6)->get();
-        $liveVideo = LiveVideo::where('is_active', true)->latest()->first();
+        $liveVideo = LiveVideo::where('is_active', true)->orderBy('id', 'desc')->first();
         $settings = [
             'mobile' => Settings::getSetting('mobile'),
             'email' => Settings::getSetting('email'),
