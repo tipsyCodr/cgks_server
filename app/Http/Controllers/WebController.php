@@ -128,6 +128,21 @@ class WebController extends Controller
         }
     }
 
+    public function subscribeStore(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+        ]);
+
+        Feedback::create([
+            'name' => 'सब्सक्राइबर (Subscriber)',
+            'mobile' => '0000000000',
+            'email' => $validated['email'],
+            'message' => 'फ़ुटर न्यूज़लेटर सदस्यता (Newsletter Subscription)',
+        ]);
+
+        return redirect()->back()->with('subscribe_success', 'सफलतापूर्वक सब्सक्राइब करे बर धन्यवाद!');
+    }
+
     // public function expressionOfInterest()
     // {
     //     return view('web.expression-of-interest');

@@ -398,9 +398,15 @@
 							<p>लेटेस्ट अपडेट और समाचार के लिए सब्सक्राइब करें</p>
 						</div>
 					</div>
-					<form class="footer_subscribe_form" action="{{ url('/suggestion') }}" method="get">
+					<form class="footer_subscribe_form" action="{{ route('subscribe.store') }}" method="POST">
+						@csrf
 						<input type="email" name="email" placeholder="आपका ईमेल दर्ज करें" required>
 						<button type="submit">सब्सक्राइब करें</button>
+						@if(session('subscribe_success'))
+							<div style="width:100%; color:#48bb78; font-size:13px; font-weight:700; margin-top:8px;">
+								<i class="fa fa-check-circle"></i> {{ session('subscribe_success') }}
+							</div>
+						@endif
 					</form>
 					<div class="footer_join_social">
 						<h4>हमसे जुड़ें</h4>

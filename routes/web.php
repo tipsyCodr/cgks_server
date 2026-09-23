@@ -33,6 +33,13 @@ Route::get('/contact-us', [WebController::class, 'contactUs'])->name('contact-us
 Route::get('/sampark', [WebController::class, 'contactUs'])->name('sampark');
 Route::post('/feedback-coming', [WebController::class, 'feedbackStore'])->name('store.feedback');
 Route::post('/contact-us', [WebController::class, 'feedbackStore'])->name('contact.store');
+Route::post('/subscribe', [WebController::class, 'subscribeStore'])->name('subscribe.store');
+Route::get('/suggestion', function (\Illuminate\Http\Request $request) {
+    return redirect()->route('contact-us', array_filter(['email' => $request->query('email')]));
+})->name('suggestion');
+Route::get('/sujhav', function (\Illuminate\Http\Request $request) {
+    return redirect()->route('contact-us', array_filter(['email' => $request->query('email')]));
+});
 Route::get('membership',[UserController::class,'form'])->name('membership');
 Route::get('online-membership',[UserController::class,'form'])->name('online-membership');
 Route::get('sadasyata',[UserController::class,'form'])->name('sadasyata');
