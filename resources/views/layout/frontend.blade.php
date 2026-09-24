@@ -200,7 +200,7 @@
 						<span class="cks-topbar-sep"></span>
 						<a href="{{ url('/membership') }}">सदस्यता लें</a>
 						<span class="cks-topbar-sep"></span>
-						<a href="{{ url('/login') }}">लॉगिन</a>
+						<a href="{{ url('/admin') }}">लॉगिन</a>
 						<span class="cks-topbar-sep"></span>
 						<span class="cks-lang">हिंदी <i class="fa fa-chevron-down"></i></span>
 					</div>
@@ -256,7 +256,7 @@
 									<li><a href="{{ url('/cooperate') }}">सहयोग करव</a></li>
 									<li><a href="{{ url('/suggestion') }}">सुझाव</a></li>
 									<li><a href="{{ url('/contact-us') }}">संपर्क</a></li>
-									<li><a href="{{ url('/login') }}">लॉगिन</a></li>
+									<li><a href="{{ url('/admin') }}">लॉगिन</a></li>
 								</ul>
 							</nav>
 						</div>
