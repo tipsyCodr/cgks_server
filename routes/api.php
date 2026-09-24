@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\AnnouncementController;
+use App\Http\Controllers\Api\AppBannerController;
 use App\Http\Controllers\Api\DistrictController;
 use App\Http\Controllers\Api\NewsController;
 use App\Http\Controllers\Api\PadController;
@@ -46,6 +47,9 @@ Route::get('categories/{type}',[CategoryController::class,'index'])->name('categ
 Route::get('categories/get/{id}',[CategoryController::class,'getCategory'])->name('categories.get');
 
 Route::get('categories', [UserController::class, 'getCategories'])->name('categories.index');
+
+// App Banners
+Route::get('app-banners', [AppBannerController::class, 'index'])->name('app-banners.index');
 
 
 // Protected Routes
