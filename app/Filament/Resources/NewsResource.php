@@ -57,7 +57,8 @@ class NewsResource extends Resource
                             ->maxSize(5120)
                             ->helperText('Recommended size: Max 5 MB (16:9 or 4:3 ratio)')
                             ->image()
-                            ->columnSpanFull(),
+                            ->columnSpanFull()
+                            ->multiple(),
                     ])
                     ->columns(2),
             ]);
