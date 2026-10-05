@@ -50,7 +50,12 @@ class UserResource extends Resource
 		return $form
 			->schema([
 				Forms\Components\TextInput::make('name')
+					->label('नाव / नाम (Hindi)')
 					->required()
+					->maxLength(255),
+				Forms\Components\TextInput::make('name2')
+					->label('नाम (English - IN CAPITAL)')
+					->nullable()
 					->maxLength(255),
 				Forms\Components\Textarea::make('bio')
 					->nullable()
@@ -146,8 +151,15 @@ class UserResource extends Resource
 		return $table
 			->columns([
 				ImageColumn::make('profile_photo')->circular(),
-				Tables\Columns\TextColumn::make('name')->sortable()->searchable(),
-					Tables\Columns\TextColumn::make('referrals_made_count')
+				Tables\Columns\TextColumn::make('name')
+					->label('नाव (Hindi)')
+					->sortable()
+					->searchable(),
+				Tables\Columns\TextColumn::make('name2')
+					->label('नाव (English)')
+					->sortable()
+					->searchable(),
+				Tables\Columns\TextColumn::make('referrals_made_count')
 					->counts('referralsMade')
 					->label('Total Referrals')
 					->sortable(),

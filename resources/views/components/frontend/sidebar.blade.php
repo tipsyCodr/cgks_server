@@ -9,7 +9,7 @@
 		@forelse($sideNews as $item)
 			<div class="post_tum">
 				<a href="{{ url('/press-release/' . $item->id) }}">
-					<img class="alignleft object-fit_contain" src="{{ $item->image_url ? asset('frontend/uploads/press_release/' . $item->image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}" title="{{ $item->title }}">
+					<img class="alignleft object-fit_contain" src="{{ $item->first_image_url ? asset('frontend/uploads/press_release/' . $item->first_image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}" title="{{ $item->title }}">
 				</a>
 				<div class="text_limit-2">
 					<a href="{{ url('/press-release/' . $item->id) }}">{{ $item->title }}</a>

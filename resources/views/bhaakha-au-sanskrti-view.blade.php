@@ -10,9 +10,9 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="single_blog">	
-							@if($item->image_url)
+							@if($item->first_image_url)
 								<div class="blog_img text-center">		
-									<img class="object-fit_contain" src="{{ asset('frontend/uploads/bhaakha_au_sanskrti/' . $item->image_url) }}" alt="{{ $item->title }}" title="{{ $item->title }}">
+									<img class="object-fit_contain" src="{{ asset('frontend/uploads/bhaakha_au_sanskrti/' . $item->first_image_url) }}" alt="{{ $item->title }}" title="{{ $item->title }}">
 								</div>
 							@endif
 							<div class="blog_content blog_page">

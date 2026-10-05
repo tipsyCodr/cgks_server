@@ -199,6 +199,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
+            'name2' => 'nullable|string|max:255',
             'mobile' => 'required|string|max:15|unique:users,mobile|regex:/^[0-9]{10,15}$/',
             'email' => 'nullable|string|email|max:255|unique:users,email',
             'address' => 'required|string|max:500',
@@ -233,6 +234,7 @@ class UserController extends Controller
 
             $user = User::create([
                 'name' => $validated['name'],
+                'name2' => !empty($validated['name2']) ? strtoupper(trim($validated['name2'])) : null,
                 'mobile' => $validated['mobile'],
                 'email' => !empty($validated['email']) ? $validated['email'] : null,
                 'address' => $validated['address'],

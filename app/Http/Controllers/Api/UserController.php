@@ -195,6 +195,7 @@ class UserController extends Controller
         //Validating the data
         $validate = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
+            'name2' => 'nullable|string|max:255',
             // 'district' => 'nullable|string|max:255',
             // 'city' => 'nullable|string|max:255',
             'referral_code' => 'required|string|exists:users,referral_code',
@@ -214,6 +215,7 @@ class UserController extends Controller
         if($userid){
             $user = User::create([
                 'name' => $request->name,
+                'name2' => !empty($request->name2) ? strtoupper(trim($request->name2)) : null,
                 'mobile' => $request->mobile,
                 'district' => $request->district,
                 'city' => $request->city,

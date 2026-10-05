@@ -22,11 +22,20 @@ class News extends Model
         ]);
     }
 
-    protected $appends = ['category_name'];
+    protected $appends = ['category_name', 'first_image_url'];
 
     public function getCategoryNameAttribute()
     {
         return $this->category->name;
+    }
+
+    public function getFirstImageUrlAttribute(): ?string
+    {
+        $val = $this->image_url;
+        if (is_array($val)) {
+            return !empty($val) ? $val[0] : null;
+        }
+        return is_string($val) && !empty($val) ? $val : null;
     }
 
     public function getImageUrlAttribute($value)

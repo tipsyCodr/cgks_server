@@ -14,7 +14,7 @@
 								<div class="row clearfix">	
 									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 										<a href="{{ url('/purakha/' . $item->id) }}" class="thumbnail">
-											<img class="object-fit_contain" src="{{ $item->image_url ? asset('frontend/uploads/purakha/' . $item->image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}" title="{{ $item->title }}">
+											<img class="object-fit_contain" src="{{ $item->first_image_url ? asset('frontend/uploads/purakha/' . $item->first_image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}" title="{{ $item->title }}">
 										</a>        
 									</div>
 									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">   

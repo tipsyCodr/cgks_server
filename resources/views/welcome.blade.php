@@ -42,7 +42,7 @@
 			<div class="cks-press-list">
 			@forelse($news as $item)
 				<a class="cks-press-item" href="{{ url('/press-release/' . $item->id) }}">
-					<img src="{{ $item->image_url ? asset('frontend/uploads/press_release/' . $item->image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}">
+					<img src="{{ $item->first_image_url ? asset('frontend/uploads/press_release/' . $item->first_image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $item->title }}">
 					<span class="cks-press-meta">
 						<span class="cks-press-title">{{ $item->title }}</span>
 						<span class="cks-press-date"><i class="fa fa-calendar"></i> {{ $item->published_date ?? $item->created_at?->format('d M Y') }}</span>

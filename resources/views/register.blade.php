@@ -66,8 +66,13 @@
 
 							<div class="row">
 								<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom:15px;">
-									<label for="name" style="font-weight:600; font-size:13px;">नाम (Full Name) <span style="color:#DA251C;">*</span></label>
+									<label for="name" style="font-weight:600; font-size:13px;">नाव (नाम - छत्तीसगढ़ी/हिंदी म) <span style="color:#DA251C;">*</span></label>
 									<input type="text" name="name" id="name" value="{{ old('name') }}" required class="form-control" placeholder="उदा. अमित कुमार बघेल" style="height:42px; border-radius:6px;">
+								</div>
+
+								<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom:15px;">
+									<label for="name2" style="font-weight:600; font-size:13px;">अंग्रेजी के केपिटल लेटर म नाव (IN CAPITAL)</label>
+									<input type="text" name="name2" id="name2" value="{{ old('name2') }}" class="form-control" placeholder="उदा. AMIT KUMAR BAGHEL" style="height:42px; border-radius:6px; text-transform:uppercase;">
 								</div>
 
 								<div class="col-md-6 col-sm-6 col-xs-12" style="margin-bottom:15px;">

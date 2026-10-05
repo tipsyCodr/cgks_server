@@ -11,7 +11,7 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="single_blog">	
 							<div class="blog_img text-center">		
-								<img class="object-fit_contain" src="{{ $newsItem->image_url ? asset('frontend/uploads/press_release/' . $newsItem->image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $newsItem->title }}" title="{{ $newsItem->title }}">
+								<img class="object-fit_contain" src="{{ $newsItem->first_image_url ? asset('frontend/uploads/press_release/' . $newsItem->first_image_url) : asset('frontend/img/header/logo.png') }}" alt="{{ $newsItem->title }}" title="{{ $newsItem->title }}">
 							</div>
 							<div class="blog_content blog_page">
 								<span><i class="fa fa-calendar"></i> {{ $newsItem->published_date ?? $newsItem->created_at?->format('d M Y') }}</span>		

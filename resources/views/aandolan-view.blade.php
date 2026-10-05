@@ -10,9 +10,9 @@
 				<div class="row">
 					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 						<div class="single_blog">	
-							@if($andolan->image_url)
+							@if($andolan->first_image_url)
 								<div class="blog_img text-center">		
-									<img class="object-fit_contain" src="{{ asset('frontend/uploads/andolan/' . $andolan->image_url) }}" alt="{{ $andolan->title }}" title="{{ $andolan->title }}">
+									<img class="object-fit_contain" src="{{ asset('frontend/uploads/andolan/' . $andolan->first_image_url) }}" alt="{{ $andolan->title }}" title="{{ $andolan->title }}">
 								</div>
 							@endif
 							<div class="blog_content blog_page">
