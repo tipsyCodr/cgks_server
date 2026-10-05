@@ -240,6 +240,15 @@ class UserController extends Controller
                 'referred_to'=>$referred_to_user_id,
             ]);
 
+            // Send welcome email if email provided
+            if (!empty($user->email)) {
+                try {
+                    $user->notify(new \App\Notifications\WelcomeMemberNotification($user, $request->password));
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('Failed sending welcome email to ' . $user->email . ': ' . $e->getMessage());
+                }
+            }
+
             // then creating PAT and returning user and token
             $token = $user->createToken('api-token')->plainTextToken;
             return response()->json(['user' => $user,'token' => $token],200);

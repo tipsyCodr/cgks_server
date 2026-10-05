@@ -166,6 +166,14 @@ class UserController extends Controller
             $user->referral_code = $regId;
             $user->save();
 
+            if (!empty($user->email)) {
+                try {
+                    $user->notify(new \App\Notifications\WelcomeMemberNotification($user, $un_en_password));
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('Failed sending welcome email to ' . $user->email . ': ' . $e->getMessage());
+                }
+            }
+
             return redirect()->back()
                 ->with('success', 'बधाई! छत्तीसगढ़िया क्रान्ति सेना म आप मन के सदस्यता पाती सफलतापूर्वक जमा होगे हे।')
                 ->with('reg_id', $regId)
@@ -247,6 +255,14 @@ class UserController extends Controller
                 'referred_by' => $referrer->id,
                 'referred_to' => $user->id,
             ]);
+
+            if (!empty($user->email)) {
+                try {
+                    $user->notify(new \App\Notifications\WelcomeMemberNotification($user, $validated['password']));
+                } catch (\Throwable $e) {
+                    \Illuminate\Support\Facades\Log::error('Failed sending welcome email to ' . $user->email . ': ' . $e->getMessage());
+                }
+            }
 
             return redirect()->back()
                 ->with('success', 'पंजीकरण सफल रहा! आप छत्तीसगढ़िया क्रान्ति सेना ऐप डाउनलोड कर लॉगिन कर सकते हैं।')
