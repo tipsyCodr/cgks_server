@@ -162,7 +162,7 @@ class UserController extends Controller
                 'active' => true,
             ]);
 
-            $regId = 'CKS' . (100 + $user->id);
+            $regId = \App\Services\MemberIdService::generate($user->district, $user->id);
             $user->referral_code = $regId;
             $user->save();
 
@@ -231,11 +231,6 @@ class UserController extends Controller
                 return redirect()->back()->withInput()->withErrors(['referral_code' => 'अमान्य रेफरल कोड।']);
             }
 
-            $uniqueCode = strtoupper(\Illuminate\Support\Str::random(8));
-            while (User::where('referral_code', $uniqueCode)->exists()) {
-                $uniqueCode = strtoupper(\Illuminate\Support\Str::random(8));
-            }
-
             $user = User::create([
                 'name' => $validated['name'],
                 'mobile' => $validated['mobile'],
@@ -245,11 +240,14 @@ class UserController extends Controller
                 'whatsapp' => $validated['whatsapp'] ?? null,
                 'district' => $validated['district'],
                 'city' => $validated['city'],
-                'referral_code' => $uniqueCode,
                 'password' => Hash::make($validated['password']),
                 'role' => 'user',
                 'active' => true,
             ]);
+
+            $memberId = \App\Services\MemberIdService::generate($user->district, $user->id);
+            $user->referral_code = $memberId;
+            $user->save();
 
             \App\Models\Referral::create([
                 'referred_by' => $referrer->id,

@@ -33,6 +33,11 @@ class CreateUser extends CreateRecord
     
     protected function afterCreate(): void
     {
+        if (empty($this->record->referral_code)) {
+            $this->record->referral_code = \App\Services\MemberIdService::generate($this->record->district, $this->record->id);
+            $this->record->saveQuietly();
+        }
+
         // Send email notification
         try {
             $mailService = new MailService();

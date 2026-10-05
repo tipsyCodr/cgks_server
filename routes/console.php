@@ -32,3 +32,23 @@ Artisan::command('mail:test {email} {--welcome}', function ($email) {
     }
 })->purpose('Send a test email to verify mail configuration');
 
+Artisan::command('users:update-member-ids', function () {
+    $users = \App\Models\User::orderBy('id')->get();
+    $this->info("Found {$users->count()} users. Updating member IDs based on RTO districts...");
+
+    $updated = 0;
+    foreach ($users as $user) {
+        $newCode = \App\Services\MemberIdService::generate($user->district, $user->id);
+        if ($user->referral_code !== $newCode) {
+            $oldCode = $user->referral_code ?? 'NULL';
+            $user->referral_code = $newCode;
+            $user->save();
+            $updated++;
+            $this->line("User #{$user->id} ({$user->name}, District: '{$user->district}'): {$oldCode} -> {$newCode}");
+        }
+    }
+
+    $this->info("Complete! Updated {$updated} user member IDs.");
+})->purpose('Update all user referral/member codes according to RTO district mapping');
+
+

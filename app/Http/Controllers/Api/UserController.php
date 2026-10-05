@@ -212,13 +212,6 @@ class UserController extends Controller
 
         // if found then create new user and add referral entry.
         if($userid){
-            //generating referral code for new user
-            $uniqueCode = strtoupper(Str::random(8));
-
-            // if you want it unique in DB:
-            while (User::where('referral_code', $uniqueCode)->exists()) {
-                $uniqueCode = strtoupper(Str::random(8));
-            }
             $user = User::create([
                 'name' => $request->name,
                 'mobile' => $request->mobile,
@@ -229,9 +222,12 @@ class UserController extends Controller
                 'address' => $request->address, // 🔹 store here
                 'occupation' => $request->occupation, // 🔹 store here
                 'whatsapp' => $request->whatsapp, // 🔹 store here
-                'referral_code' => $uniqueCode,
                 'password' => Hash::make($request->password),
             ]);
+
+            $memberId = \App\Services\MemberIdService::generate($user->district, $user->id);
+            $user->referral_code = $memberId;
+            $user->save();
 
             $referred_by_user_id = $userid;
             $referred_to_user_id = $user->id;
