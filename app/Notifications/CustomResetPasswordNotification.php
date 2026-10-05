@@ -5,6 +5,7 @@ namespace App\Notifications;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 
 class CustomResetPasswordNotification extends ResetPassword
 {
@@ -16,6 +17,10 @@ class CustomResetPasswordNotification extends ResetPassword
      */
     public function toMail($notifiable)
     {
+        Log::info('Generating reset password mail body and URL', [
+            'email' => $notifiable->getEmailForPasswordReset(),
+        ]);
+
         if (static::$createUrlCallback) {
             $url = call_user_func(static::$createUrlCallback, $notifiable, $this->token);
         } else {

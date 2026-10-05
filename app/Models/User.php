@@ -102,7 +102,16 @@ class User extends Authenticatable
      */
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new CustomResetPasswordNotification($token));
+        try {
+            \Illuminate\Support\Facades\Log::info("Sending CustomResetPasswordNotification to user {$this->email}");
+            $this->notify(new CustomResetPasswordNotification($token));
+            \Illuminate\Support\Facades\Log::info("CustomResetPasswordNotification queued/sent for user {$this->email}");
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error("Failed sending CustomResetPasswordNotification to {$this->email}: " . $e->getMessage(), [
+                'exception' => $e,
+            ]);
+            throw $e;
+        }
     }
 
     public function referral(){

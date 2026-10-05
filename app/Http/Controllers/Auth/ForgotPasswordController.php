@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
@@ -34,31 +35,64 @@ class ForgotPasswordController extends Controller
     {
         $request->validate(['email' => 'required|email']);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        Log::info('Password reset web request initiated', ['email' => $request->email]);
 
-        if ($status === Password::RESET_LINK_SENT) {
-            return back()->with(['status' => __($status)]);
+        try {
+            $status = Password::sendResetLink(
+                $request->only('email')
+            );
+
+            Log::info('Password reset web link status result', [
+                'email' => $request->email,
+                'status' => $status,
+            ]);
+
+            if ($status === Password::RESET_LINK_SENT) {
+                return back()->with(['status' => __($status)]);
+            }
+
+            throw ValidationException::withMessages([
+                'email' => [trans($status)],
+            ]);
+        } catch (ValidationException $e) {
+            throw $e;
+        } catch (\Throwable $e) {
+            Log::error('Error sending password reset email (web): ' . $e->getMessage(), [
+                'email' => $request->email,
+                'exception' => $e,
+            ]);
+
+            return back()->withErrors(['email' => 'Mail error: ' . $e->getMessage()]);
         }
-
-        throw ValidationException::withMessages([
-            'email' => [trans($status)],
-        ]);
     }
+
     // ForgotPasswordController.php
     public function sendResetLinkApi(Request $request)
     {
         $request->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink($request->only('email'));
+        Log::info('Password reset API request initiated', ['email' => $request->email]);
 
-        return $status === Password::RESET_LINK_SENT
-            ? response()->json(['message' => 'Reset link sent to your email.'], 200)
-            : response()->json(['error' => __($status)], 400);
+        try {
+            $status = Password::sendResetLink($request->only('email'));
+
+            Log::info('Password reset API link status result', [
+                'email' => $request->email,
+                'status' => $status,
+            ]);
+
+            return $status === Password::RESET_LINK_SENT
+                ? response()->json(['message' => 'Reset link sent to your email.'], 200)
+                : response()->json(['error' => __($status)], 400);
+        } catch (\Throwable $e) {
+            Log::error('Error sending password reset email (API): ' . $e->getMessage(), [
+                'email' => $request->email,
+                'exception' => $e,
+            ]);
+
+            return response()->json([
+                'error' => 'Mail error: ' . $e->getMessage(),
+            ], 500);
+        }
     }
-
 }
